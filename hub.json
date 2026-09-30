@@ -1,0 +1,257 @@
+{
+  "name": "Ted Huang",
+  "mark": "TH",
+  "palette": "lime",
+  "verified": "2026-09-30",
+  "title": {"en": "Open-source projects", "zh": "開源專案"},
+  "description": {
+    "en": "{count} open-source projects by Ted Huang: multi-AI tools, agent infrastructure, security, and a few small experiments. Each one has its own bilingual project page.",
+    "zh": "Ted Huang 的 {count} 個開源專案：多 AI 工具、agent 基礎建設、資安，還有幾個小實驗。每個專案都有自己的中英雙語介紹頁。"
+  },
+  "hero": {
+    "eyebrow": {"en": "Ted Huang · Open source", "zh": "Ted Huang · 開源作品"},
+    "headline": {"en": "Working software, <em>built in the open.</em>", "zh": "真正能用的軟體，<em>公開打造。</em>"},
+    "lede": {
+      "en": "{count} public projects from an engineer with twenty years in IT and security who now builds AI agent tooling. Every project has its own page in English and Traditional Chinese, including what does not work yet.",
+      "zh": "{count} 個公開專案，來自一個做了二十年 IT 與資安、現在專心打造 AI agent 工具的工程師。每個專案都有自己的中英雙語介紹頁，也寫明還做不到的地方。"
+    },
+    "primary": {"href": "#ai-tools", "label": {"en": "Browse projects", "zh": "瀏覽專案"}},
+    "secondary": {"href": "https://www.ted-h.com", "label": {"en": "About Ted", "zh": "關於 Ted"}},
+    "notes": ["EN / 繁中", {"en": "Honest status on every page", "zh": "每頁都寫明目前狀態"}, {"en": "Source on GitHub", "zh": "原始碼都在 GitHub"}]
+  },
+  "stats": [
+    {"value": "{count}", "label": {"en": "public projects", "zh": "個公開專案"}},
+    {"value": "20", "label": {"en": "years in enterprise IT and security", "zh": "年企業 IT 與資安經驗"}},
+    {"value": "2", "label": {"en": "languages on every page", "zh": "種語言，每一頁都有"}}
+  ],
+  "groups": [
+    {
+      "id": "ai-tools",
+      "nav": {"en": "AI tools", "zh": "AI 工具"},
+      "kicker": {"en": "01 · AI tools", "zh": "01 · AI 工具"},
+      "title": {"en": "AI that works where you already work.", "zh": "在你熟悉的工具裡用 AI。"},
+      "intro": {
+        "en": "Ask ChatGPT, Claude, Gemini, and Grok together and let them check each other, from the desktop, the browser, the terminal, or Claude Code. Plus a companion that remembers your day on your own machine.",
+        "zh": "讓 ChatGPT、Claude、Gemini、Grok 一起回答、互相檢查，桌面、瀏覽器、終端機或 Claude Code 裡都能用。另外還有一個在你自己電腦上記住一整天的陪伴 app。"
+      },
+      "title_short": {"en": "AI tools", "zh": "AI 工具"},
+      "summary": {"en": "Multi-model chat, review, memory", "zh": "多模型對話、審查、記憶"},
+      "projects": [
+        {
+          "slug": "multi-ai-chat-desktop", "name": "Multi-AI Chat Desktop", "mark": "MD", "palette": "blue", "status": "active", "release": "latest",
+          "line": {
+            "en": "A portable desktop app that drives your logged-in ChatGPT, Claude, Gemini, and Grok side by side through guided workflows. No API keys.",
+            "zh": "可攜式桌面 app，用引導式流程同時操作你已登入的 ChatGPT、Claude、Gemini、Grok，不需要 API key。"
+          },
+          "stack": "Tauri 2 · React · TypeScript · Rust",
+          "links": [{"href": "https://github.com/teddashh/multi-ai-chat-desktop/releases/latest", "label": {"en": "Download", "zh": "下載"}}]
+        },
+        {
+          "slug": "multi-ai-chat", "name": "Multi-AI Chat", "mark": "MC", "palette": "amber", "status": "active", "release": "latest",
+          "line": {
+            "en": "A Chrome side panel that turns the AI tabs you already have open into one multi-model workflow.",
+            "zh": "Chrome 側邊面板，把你已經開著的 AI 分頁串成一條多模型工作流程。"
+          },
+          "stack": "Chrome MV3 · React · TypeScript"
+        },
+        {
+          "slug": "multi-ai-terminal", "name": "Multi-AI Terminal", "mark": "MT", "palette": "graphite", "status": "paused", "release": "latest",
+          "line": {
+            "en": "A local workbench that runs multi-agent workflows on real headless coding-agent CLIs, with stage gates and a replayable evidence feed.",
+            "zh": "本機工作台，在真正的 headless coding-agent CLI 上跑多 agent 工作流程，有階段關卡，也有可重播的證據紀錄。"
+          },
+          "stack": "TypeScript · React · Node.js · Tauri 2"
+        },
+        {
+          "slug": "AI-Sister", "name": "AI-Sister", "mark": "AS", "palette": "rose", "status": "active", "release": "prerelease",
+          "line": {
+            "en": "A local-first desktop companion that remembers what you worked on, stays quiet most of the time, and cites a source for every answer.",
+            "zh": "本機優先的桌面陪伴：記得你做過什麼，大部分時間保持安靜，每句回答都附上出處。"
+          },
+          "stack": "Tauri 2 · Rust · SQLite · Windows OCR"
+        },
+        {
+          "slug": "ai-brainstorming", "name": "AI Brainstorming", "mark": "AB", "palette": "violet", "status": "paused",
+          "line": {
+            "en": "A small web app for idea review: pick 5, 12, or 16 rounds, leave, and come back to a Markdown report by link or email.",
+            "zh": "點子審查的小型網頁 app：選 5、12 或 16 輪，先離開，之後用連結或 email 拿到 Markdown 報告。"
+          },
+          "stack": "Hono · React · SQLite · OpenRouter"
+        },
+        {
+          "slug": "claude-idea-review-skill", "name": "Claude Idea Review Skill", "mark": "IR", "palette": "amber", "status": "stable",
+          "line": {
+            "en": "A Claude Code skill that puts an idea through a 5, 12, or 16-round review panel before you spend time building it.",
+            "zh": "Claude Code skill：在你花時間動手之前，先讓點子經過 5、12 或 16 輪的審查。"
+          },
+          "stack": "Claude Code skill · Python"
+        }
+      ]
+    },
+    {
+      "id": "agents",
+      "nav": {"en": "Agents", "zh": "Agent"},
+      "kicker": {"en": "02 · Agent infrastructure", "zh": "02 · Agent 基礎建設"},
+      "title": {"en": "Plumbing for agents that run all day.", "zh": "Agent 整天跑，也不會出事。"},
+      "intro": {
+        "en": "Connectors, guardrails, memory, and usage tracking for coding agents such as Claude Code, Codex, and OpenClaw.",
+        "zh": "給 Claude Code、Codex、OpenClaw 這類 coding agent 用的連接器、護欄、記憶與用量追蹤。"
+      },
+      "title_short": {"en": "Agent infrastructure", "zh": "Agent 基礎建設"},
+      "summary": {"en": "Connectors, guardrails, memory", "zh": "連接器、護欄、記憶"},
+      "projects": [
+        {
+          "slug": "bat-agent-connector", "name": "bat-agent-connector", "mark": "BA", "palette": "blue", "status": "active",
+          "line": {
+            "en": "An unofficial connector that lets AI agents watch, nudge, and orchestrate Better Agent Terminal sessions, with opt-in tiers and deterministic gates.",
+            "zh": "非官方連接器，讓 AI agent 查看、推動與調度 Better Agent Terminal 的 session，權限分層、需要主動開啟，並有確定性的關卡。"
+          },
+          "stack": "Python · MCP · CLI"
+        },
+        {
+          "slug": "bat-cowork", "name": "bat-cowork", "mark": "BC", "palette": "lime", "status": "early",
+          "line": {
+            "en": "A server-first cowork workstation: a Paseo-derived daemon with a Better Agent Terminal desktop client. Work in progress, not a release.",
+            "zh": "伺服器優先的協作工作站：Paseo 衍生的 daemon，加上 Better Agent Terminal 桌面端。仍在開發中，尚未發布。"
+          },
+          "stack": "TypeScript · Node.js · Tauri"
+        },
+        {
+          "slug": "TokenMonster", "name": "TokenMonster", "mark": "TM", "palette": "rose", "status": "paused", "release": "prerelease",
+          "line": {
+            "en": "Tracks Claude Code, Codex, Gemini CLI, and Grok CLI token use on your own machine, with a live dashboard and companions that grow with real milestones.",
+            "zh": "在你自己的電腦上追蹤 Claude Code、Codex、Gemini CLI、Grok CLI 的 token 用量，有即時儀表板，陪伴角色會隨真實里程碑成長。"
+          },
+          "stack": "TypeScript · Electron · Node.js · SQLite"
+        },
+        {
+          "slug": "openclaw-hermes-watcher", "name": "openclaw-hermes-watcher", "mark": "HW", "palette": "moss", "status": "stable", "release": "latest",
+          "line": {
+            "en": "A guarded evolution layer for OpenClaw hosts: Hermes studies and proposes, a Bash watcher guards, and the operator approves.",
+            "zh": "OpenClaw 主機的守護型演化層：Hermes 研究並提案，Bash watcher 把關，由操作者核准。"
+          },
+          "stack": "Bash · systemd · YAML"
+        },
+        {
+          "slug": "clawd-lobster", "name": "Clawd-Lobster", "mark": "CL", "palette": "ember", "status": "paused",
+          "line": {
+            "en": "A curated operating layer for Claude Code: reviewed specs, persistent memory, reusable skills, and workspaces that follow you across machines.",
+            "zh": "Claude Code 的精選運作層：經過審閱的規格、持久記憶、可重用的 skill，以及跨機器延續的工作區。"
+          },
+          "stack": "Python · MCP · SQLite · Claude Code"
+        },
+        {
+          "slug": "mcp-memory-server", "name": "MCP Memory Server", "mark": "MM", "palette": "teal", "status": "paused",
+          "line": {
+            "en": "An MCP server for long-term agent memory: decisions, resolved issues, open questions, and knowledge that you can inspect.",
+            "zh": "給 agent 用的長期記憶 MCP 伺服器：決策、已解決的問題、待回答的問題與知識，都可以檢視。"
+          },
+          "stack": "Python · FastMCP · SQLite"
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "nav": {"en": "Security", "zh": "資安"},
+      "kicker": {"en": "03 · Security and IT", "zh": "03 · 資安與 IT"},
+      "title": {"en": "Twenty years of IT, turned into tools.", "zh": "二十年 IT 經驗，做成工具。"},
+      "intro": {
+        "en": "Security checks, machine control, and awareness training that come from running real company systems.",
+        "zh": "從實際維運公司系統累積出來的資安檢查、機器管控與資安意識教材。"
+      },
+      "title_short": {"en": "Security and IT", "zh": "資安與 IT"},
+      "summary": {"en": "Scanner, control plane, training", "zh": "掃描、控制平面、教材"},
+      "projects": [
+        {
+          "slug": "ai-security-scanner", "name": "ai-security-scanner", "mark": "SS", "palette": "graphite", "status": "active", "release": "latest",
+          "line": {
+            "en": "A desktop app and agent skills that run upstream open-source security tools and turn their output into one standardized report.",
+            "zh": "桌面 app 與 agent skill：執行上游的開源資安工具，把結果整理成一份標準化報告。"
+          },
+          "stack": "Rust · Tauri · React"
+        },
+        {
+          "slug": "AI-Intune", "name": "AI-Intune", "mark": "IN", "palette": "lime", "status": "active",
+          "line": {
+            "en": "An evidence-first control plane for Linux machines that run AI agents and coding tools.",
+            "zh": "以證據為本的控制平面，管理執行 AI agent 與 coding 工具的 Linux 機器。"
+          },
+          "stack": "Go · Linux"
+        },
+        {
+          "slug": "idn-homograph-example", "name": "IDN Homograph Demo", "mark": "IDN",
+          "palette": {"base": "graphite", "accent": "#ffd5cc", "signal": "#e5372b", "kicker": "#b42318"},
+          "status": "stable",
+          "line": {
+            "en": "A one-page bilingual awareness demo that shows how a look-alike Unicode domain can pass for the real one.",
+            "zh": "一頁式的中英雙語資安意識示範：看看長得一模一樣的 Unicode 網域，怎麼冒充真的網站。"
+          },
+          "stack": "HTML · CSS · JavaScript",
+          "links": [{"href": "https://project-9ogsa.vercel.app", "label": {"en": "Live demo", "zh": "線上示範"}}]
+        }
+      ]
+    },
+    {
+      "id": "small",
+      "nav": {"en": "Small things", "zh": "小作品"},
+      "kicker": {"en": "04 · Small things and notes", "zh": "04 · 小作品與筆記"},
+      "title": {"en": "Not everything needs to be a platform.", "zh": "不是每樣東西都要做成平台。"},
+      "intro": {
+        "en": "A parody toy, a strategy notebook, and a helper repository for a community bot.",
+        "zh": "一個惡搞小玩具、一本策略筆記，還有一個替社群機器人存圖的倉庫。"
+      },
+      "title_short": {"en": "Small things and notes", "zh": "小作品與筆記"},
+      "summary": {"en": "Toy, notes, utility", "zh": "玩具、筆記、工具倉庫"},
+      "projects": [
+        {
+          "slug": "reset-therapy", "name": "Reset Therapy", "name_zh": "重置 Therapy", "mark": "RT", "palette": "lime", "status": "toy",
+          "line": {
+            "en": "A bilingual anti-burnout toy: watch four fake AI quota panels burn down, then let golden dragons reset them.",
+            "zh": "中英雙語的抗倦怠小玩具：看著四個假的 AI 額度面板燒光，再讓黃金龍幫你重置。"
+          },
+          "stack": "HTML · JavaScript",
+          "links": [{"href": "/reset-therapy/play/", "label": {"en": "Play", "zh": "開始玩"}}]
+        },
+        {
+          "slug": "zhan-dou-tuo-luo", "name": "AI Beyblade X Notes", "name_zh": "AI 教你打陀螺", "mark": "BX", "palette": "blue", "status": "notes",
+          "line": {
+            "en": "Chinese-first notes on Beyblade X: why points, not spin time, decide a match, and how to build a 3v3 deck.",
+            "zh": "戰鬥陀螺 Beyblade X 中文筆記：為什麼決定勝負的是分數而不是誰轉得最久，以及怎麼配 3v3 牌組。"
+          },
+          "stack": "Markdown · 繁體中文"
+        },
+        {
+          "slug": "freeworkshop-issue-assets", "name": "freeworkshop-issue-assets", "mark": "FW", "palette": "teal", "status": "utility",
+          "line": {
+            "en": "Image storage for the GitHub issues that the 自由工坊 community bot files from Discord, because Discord attachment links expire.",
+            "zh": "自由工坊社群機器人從 Discord 開 GitHub issue 時用的圖片倉庫，因為 Discord 附件連結會過期。"
+          },
+          "stack": "GitHub · Discord bot"
+        }
+      ]
+    }
+  ],
+  "about": {
+    "kicker": {"en": "About", "zh": "關於"},
+    "title": {"en": "An operator who builds.", "zh": "會動手寫程式的維運人。"},
+    "body": [
+      {
+        "en": "I studied computer science at National Central University in Taiwan, then spent nearly two decades in the United States running identity, endpoints, ERP, BI, CRM, and security programs inside real businesses.",
+        "zh": "我在台灣讀中央大學資工，之後在美國將近二十年，在真實的企業裡負責身分管理、端點、ERP、BI、CRM 與資安計畫。"
+      },
+      {
+        "en": "I build AI agent tooling with the same habits: people keep the final say, state survives a restart, and every claim leaves evidence.",
+        "zh": "現在我用同樣的習慣做 AI agent 工具：最後的決定權留在人手上，狀態重開也不會遺失，每個說法都留下證據。"
+      }
+    ],
+    "quote": {
+      "en": "Working for months in a real environment matters more than looking clever in a demo.",
+      "zh": "在真實環境裡穩定跑上好幾個月，比在 demo 裡看起來聰明更重要。"
+    }
+  },
+  "links": [
+    {"href": "https://github.com/teddashh", "label": "GitHub"},
+    {"href": "https://www.ted-h.com", "label": "ted-h.com"},
+    {"href": "https://github.com/teddashh/teddashh.github.io/tree/main/kit", "label": {"en": "Page kit", "zh": "頁面產生器"}}
+  ]
+}

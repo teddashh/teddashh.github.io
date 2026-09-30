@@ -1,0 +1,4 @@
+kit/private-terms.txt
+__pycache__/
+*.pyc
+_shots/
