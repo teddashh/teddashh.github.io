@@ -8,12 +8,9 @@ Serves <repo-dir>/site on a free localhost port, captures English and
 Traditional Chinese desktop views plus a Chinese mobile view with headless
 Chromium, trims the empty tail, and slices each capture into readable chunks:
 
-    _shots/<name>-en-desk-1.png, -2.png, ...
-    _shots/<name>-zh-desk-1.png, ...
-    _shots/<name>-zh-mob-1.png, ...
-
-(Snap-packaged Chromium can only write under your home directory, outside
-hidden folders.)
+    ~/tmp/gh-sweep-20260930/_shots/<name>-en-desk-1.png, -2.png, ...
+    ~/tmp/gh-sweep-20260930/_shots/<name>-zh-desk-1.png, ...
+    ~/tmp/gh-sweep-20260930/_shots/<name>-zh-mob-1.png, ...
 
 Prints the written file names. Look at every chunk before calling a page done.
 """
@@ -21,7 +18,6 @@ Prints the written file names. Look at every chunk before calling a page done.
 from __future__ import annotations
 
 import http.server
-import os
 import shutil
 import subprocess
 import sys
@@ -31,8 +27,7 @@ from pathlib import Path
 
 from PIL import Image, ImageFilter
 
-# Screenshots land in $PAGE_KIT_SHOTS, or ./_shots under the current directory.
-OUT = Path(os.environ.get("PAGE_KIT_SHOTS", Path.cwd() / "_shots")).resolve()
+OUT = Path.home() / "tmp" / "gh-sweep-20260930" / "_shots"
 
 
 def main() -> int:
@@ -65,8 +60,8 @@ def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
 
     jobs = [
-        ("en-desk", "1440,7200", "en", 1600),
-        ("zh-desk", "1440,7200", "zh-TW", 1600),
+        ("en-desk", "1440,12000", "en", 1600),
+        ("zh-desk", "1440,12000", "zh-TW", 1600),
         ("zh-mob", "390,16000", "zh-TW", 2400),
     ]
     written = []

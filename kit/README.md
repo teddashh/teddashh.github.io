@@ -17,6 +17,7 @@ requests. Standard-library Python; no build step on the reader's side.
 | `lang.js` | picks the language before first paint: `?lang=`, then the saved choice, then the browser language |
 | `app.js` | language switch, menu, copy buttons, and word-boundary line breaks for Chinese headings |
 | `shoot.py` | headless Chromium screenshots (English and Chinese, desktop and mobile) for a visual check |
+| `zh_breaks.py` | prints where each Chinese `h1`, `h2` and quote wraps at desktop and phone width, as text |
 
 ## Use
 
@@ -24,6 +25,7 @@ requests. Standard-library Python; no build step on the reader's side.
 python3 kit/render.py path/to/repo            # validate and write path/to/repo/site/
 python3 kit/render.py path/to/repo --check    # validate only
 python3 kit/shoot.py  path/to/repo short-name # screenshots into ./_shots/ or $PAGE_KIT_SHOTS
+python3 kit/zh_breaks.py path/to/repo         # Chinese heading line breaks, e.g. "一張表單， / 幾輪討論"
 python3 kit/render_hub.py .                   # this repository's directory page
 python3 kit/render_profile.py path/to/profile          # profile README project list
 python3 kit/render_profile.py path/to/profile --check  # exit 1 if the profile is out of date
@@ -51,6 +53,12 @@ an object with `base` plus overrides), `default_branch`, `verified`, `language`,
 `license`, `stats`, `problem`, `flow`, `showcase`, `architecture`, `decisions`,
 `quickstart`, `links`, `pages_extra` (publish extra repository files next to
 `site/`).
+
+A link (`hero.primary`, `hero.secondary`, `quickstart.primary`, `links`) is
+`{"href": "...", "label": ...}`. When the target differs by language, `href`
+can be bilingual too, for example `{"en": "./play/", "zh": "./play/?lang=zh"}`;
+the page then shows each language its own link. Hub and profile links in
+`hub.json` accept the same form.
 
 The hero visual is one of `image` (a real screenshot), `terminal`, `receipt`,
 `report`, `chat`, or `stack`. Capability cards come in threes or sixes; flows

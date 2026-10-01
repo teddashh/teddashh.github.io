@@ -91,7 +91,7 @@ def row(project: dict, lang: str) -> str:
     stack = " ".join(f"<code>{html.escape(part.strip())}</code>" for part in project["stack"].split("·"))
     links = [f'<a href="{page}">{t["page"]}</a>', f'<a href="{GH}/{slug}">{t["source"]}</a>']
     for link in project.get("links", []):
-        links.append(f'<a href="{html.escape(absolute(link["href"]), quote=True)}">{html.escape(pick(link["label"], lang))} ↗</a>')
+        links.append(f'<a href="{html.escape(absolute(pick(link["href"], lang)), quote=True)}">{html.escape(pick(link["label"], lang))} ↗</a>')
     return f"""  <tr>
     <td width="32%" valign="top">
       <strong><a href="{page}">{html.escape(display_name(project, lang))}</a></strong><br>

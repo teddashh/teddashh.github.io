@@ -96,7 +96,7 @@ def render_card(project: dict) -> str:
     links = [per_lang_link(urls, {"en": "Project page →", "zh": "專案介紹 →"})]
     links.append(f'<a href="https://github.com/{R.OWNER}/{slug}">GitHub</a>')
     for link in project.get("links", []):
-        links.append(f'<a href="{R.href(link["href"])}">{R.bi(link["label"])}</a>')
+        links.append(R.anchor(link))
     return (
         f'<article class="project-card" id="p-{R.href(slug.lower())}">'
         f'<div class="project-head"><img src="tiles/{R.href(slug)}.svg" alt="" width="44" height="44">'
@@ -179,7 +179,7 @@ def render_hub(hub: dict) -> str:
             + f"</div>{quote}</div></section>"
         )
 
-    links = "".join(f'<a href="{R.href(l["href"])}">{R.bi(l["label"])}</a>' for l in hub.get("links", []))
+    links = "".join(R.anchor(l) for l in hub.get("links", []))
     ld = {
         "@context": "https://schema.org",
         "@type": "CollectionPage",

@@ -2,7 +2,7 @@
   "name": "Ted Huang",
   "mark": "TH",
   "palette": "lime",
-  "verified": "2026-09-30",
+  "verified": "2026-10-01",
   "title": {"en": "Open-source projects", "zh": "開源專案"},
   "description": {
     "en": "{count} open-source projects by Ted Huang: multi-AI tools, agent infrastructure, security, and a few small experiments. Each one has its own bilingual project page.",
@@ -10,7 +10,7 @@
   },
   "hero": {
     "eyebrow": {"en": "Ted Huang · Open source", "zh": "Ted Huang · 開源作品"},
-    "headline": {"en": "Working software, <em>built in the open.</em>", "zh": "真正能用的軟體，<em>公開打造。</em>"},
+    "headline": {"en": "Working software, <em>built in the open.</em>", "zh": "能用的軟體，<em>公開打造。</em>"},
     "lede": {
       "en": "{count} public projects from an engineer with twenty years in IT and security who now builds AI agent tooling. Every project has its own page in English and Traditional Chinese, including what does not work yet.",
       "zh": "{count} 個公開專案，來自一個做了二十年 IT 與資安、現在專心打造 AI agent 工具的工程師。每個專案都有自己的中英雙語介紹頁，也寫明還做不到的地方。"
@@ -57,8 +57,8 @@
         {
           "slug": "multi-ai-terminal", "name": "Multi-AI Terminal", "mark": "MT", "palette": "graphite", "status": "paused", "release": "latest",
           "line": {
-            "en": "A local workbench that runs multi-agent workflows on real headless coding-agent CLIs, with stage gates and a replayable evidence feed.",
-            "zh": "本機工作台，在真正的 headless coding-agent CLI 上跑多 agent 工作流程，有階段關卡，也有可重播的證據紀錄。"
+            "en": "A local workbench that runs staged multi-agent coding workflows on the headless runtimes of Claude Code, Codex, Grok, and Antigravity, with gates and a replayable evidence feed.",
+            "zh": "本機工作台，在 Claude Code、Codex、Grok、Antigravity 的 headless runtime 上跑分階段的多 agent 工作流程，有關卡，也有可重播的證據紀錄。"
           },
           "stack": "TypeScript · React · Node.js · Tauri 2"
         },
@@ -119,8 +119,8 @@
         {
           "slug": "TokenMonster", "name": "TokenMonster", "mark": "TM", "palette": "rose", "status": "paused", "release": "prerelease",
           "line": {
-            "en": "Tracks Claude Code, Codex, Gemini CLI, and Grok CLI token use on your own machine, with a live dashboard and companions that grow with real milestones.",
-            "zh": "在你自己的電腦上追蹤 Claude Code、Codex、Gemini CLI、Grok CLI 的 token 用量，有即時儀表板，陪伴角色會隨真實里程碑成長。"
+            "en": "Tracks Claude Code, Codex, Gemini CLI, and Grok Build token use on your own machine, with a live dashboard and companions that grow with real milestones.",
+            "zh": "在你自己的電腦上追蹤 Claude Code、Codex、Gemini CLI、Grok Build 的 token 用量，有即時儀表板，陪伴角色會隨真實里程碑成長。"
           },
           "stack": "TypeScript · Electron · Node.js · SQLite"
         },
@@ -210,7 +210,7 @@
             "zh": "中英雙語的抗倦怠小玩具：看著四個假的 AI 額度面板燒光，再讓黃金龍幫你重置。"
           },
           "stack": "HTML · JavaScript",
-          "links": [{"href": "/reset-therapy/play/", "label": {"en": "Play", "zh": "開始玩"}}]
+          "links": [{"href": {"en": "/reset-therapy/play/", "zh": "/reset-therapy/play/?lang=zh"}, "label": {"en": "Play", "zh": "開始玩"}}]
         },
         {
           "slug": "zhan-dou-tuo-luo", "name": "AI Beyblade X Notes", "name_zh": "AI 教你打陀螺", "mark": "BX", "palette": "blue", "status": "notes",
@@ -233,7 +233,7 @@
   ],
   "about": {
     "kicker": {"en": "About", "zh": "關於"},
-    "title": {"en": "An operator who builds.", "zh": "會動手寫程式的維運人。"},
+    "title": {"en": "An operator who builds.", "zh": "維運出身，自己動手做。"},
     "body": [
       {
         "en": "I studied computer science at National Central University in Taiwan, then spent nearly two decades in the United States running identity, endpoints, ERP, BI, CRM, and security programs inside real businesses.",
@@ -246,7 +246,7 @@
     ],
     "quote": {
       "en": "Working for months in a real environment matters more than looking clever in a demo.",
-      "zh": "在真實環境裡穩定跑上好幾個月，比在 demo 裡看起來聰明更重要。"
+      "zh": "demo 裡看起來聰明，不如在真實環境裡穩定跑上好幾個月。"
     }
   },
   "links": [

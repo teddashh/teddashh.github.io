@@ -118,9 +118,3 @@
   .project-grid { grid-template-columns: 1fr; }
   .project-card { min-height: 0; padding: 22px; }
 }
-
-/* the directory headline shares its row with the panel; keep the Chinese
-   version on two lines at desktop widths */
-@media (min-width: 621px) {
-  .hero-copy h1.lang-zh { font-size: clamp(2.6rem, 4.7vw, 4.5rem); }
-}

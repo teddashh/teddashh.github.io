@@ -80,6 +80,8 @@ code {
   font-size: 0.9em;
 }
 
+code.nowrap { white-space: nowrap; }
+
 .skip-link {
   position: fixed;
   z-index: 100;
@@ -251,7 +253,7 @@ h1 {
 }
 
 .hero-copy h1.lang-zh {
-  font-size: clamp(2.8rem, 5.4vw, 5.2rem);
+  font-size: clamp(2.6rem, 4.7vw, 4.5rem);
   line-height: 1.08;
   letter-spacing: -0.04em;
 }
@@ -375,6 +377,9 @@ h1 em::after {
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+
+/* a long file name in the panel title wraps instead of widening the hero */
+.panel-top > span:first-child { min-width: 0; overflow-wrap: anywhere; }
 
 .live-dot {
   display: inline-flex;
@@ -1122,6 +1127,9 @@ h2.lang-zh {
   align-items: start;
 }
 
+/* let long code lines scroll inside their block instead of widening the grid */
+.qs-grid > * { min-width: 0; }
+
 .dark-band h2 { margin-bottom: 24px; }
 
 .dark-band p { color: color-mix(in srgb, #ffffff 64%, transparent); }
@@ -1141,6 +1149,7 @@ h2.lang-zh {
 
 .steps {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   counter-reset: setup;
 }
@@ -1323,7 +1332,8 @@ h2.lang-zh {
 
 .footer-inner {
   display: grid;
-  grid-template-columns: 1fr auto;
+  /* a long row of links wraps instead of squeezing the brand column */
+  grid-template-columns: minmax(16rem, 1fr) auto;
   align-items: end;
   gap: 30px;
   padding: 48px 0;
@@ -1391,7 +1401,7 @@ h2.lang-zh {
   .language-switch, .github-link { width: max-content; }
 
   .hero {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     padding-top: 76px;
   }
 
@@ -1629,10 +1639,4 @@ h2.lang-zh {
 @media (max-width: 620px) {
   .project-grid { grid-template-columns: 1fr; }
   .project-card { min-height: 0; padding: 22px; }
-}
-
-/* the directory headline shares its row with the panel; keep the Chinese
-   version on two lines at desktop widths */
-@media (min-width: 621px) {
-  .hero-copy h1.lang-zh { font-size: clamp(2.6rem, 4.7vw, 4.5rem); }
 }

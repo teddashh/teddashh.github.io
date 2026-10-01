@@ -67,6 +67,7 @@ SIMPLIFIED_ONLY = set(
 )
 
 INLINE_TAG = re.compile(r"&lt;(/?)(em|strong|code|br)\s*/?&gt;")
+SHORT_CODE = re.compile(r"<code>([^<]{1,80})</code>")
 INLINE_LINK = re.compile(r"&lt;a href=&quot;((?:https?://|\./|\.\./|#|mailto:)[^&\"<>\s]*)&quot;&gt;")
 
 
@@ -99,7 +100,7 @@ def validate(page: dict) -> list[str]:
         for term in PRIVATE_TERMS:
             if term in lowered:
                 problems.append(f"{path}: mentions a private or employer term {term!r}")
-        if path.endswith(".zh"):
+        if path.endswith(".zh") and not path.endswith(".href.zh"):
             bad = sorted({c for c in text if c in SIMPLIFIED_ONLY})
             if bad:
                 problems.append(f"{path}: Simplified-only characters {''.join(bad)!r}; use Traditional Chinese (Taiwan)")
@@ -163,6 +164,9 @@ def inline(text: str) -> str:
     """Escape text but keep a tiny inline subset: em, strong, code, br, a[href]."""
     out = html.escape(text, quote=True)
     out = INLINE_TAG.sub(lambda m: f"<{m.group(1)}{m.group(2)}>", out)
+    # a short command or name in running text stays on one line ("claude --resume")
+    out = SHORT_CODE.sub(lambda m: f'<code class="nowrap">{m.group(1)}</code>'
+                         if len(html.unescape(m.group(1))) <= 28 else m.group(0), out)
     out = INLINE_LINK.sub(lambda m: f'<a href="{m.group(1)}">', out)
     return out.replace("&lt;/a&gt;", "</a>")
 
@@ -198,7 +202,7 @@ def href(url: str) -> str:
     return html.escape(url, quote=True)
 
 
-GITHUB_SVG = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.24c-3.22.7-3.9-1.37-3.9-1.37-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.57-.29-5.28-1.29-5.28-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.16 1.18a10.96 10.96 0 0 1 5.76 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.42-2.72 5.39-5.3 5.68.42.36.79 1.07.79 2.16v3.21c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg>')
+GITHUB_SVG = ('<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.24c-3.22.7-3.9-1.37-3.9-1.37-.52-1.34-1.28-1.7-1.28-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36 .96 .1-.75.4-1.26.73-1.55-2.57-.29-5.28-1.29-5.28-5.69 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.16 1.18a10.96 10.96 0 0 1 5.76 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.23 2.76.11 3.05 .74 .81 1.19 1.83 1.19 3.09 0 4.42-2.72 5.39-5.3 5.68 .42 .36.79 1.07.79 2.16v3.21c0 .31.21 .67 .8.56A11.5 11.5 0 0 0 12 .7Z"/></svg>')
 
 DEFAULT_NAV = {
     "flow": {"en": "How it works", "zh": "運作方式"},
@@ -345,8 +349,19 @@ def heading(sec: dict, extra_class="") -> str:
             f"{intro}</div>")
 
 
+def anchor(link: dict, cls: str = "") -> str:
+    """A link from page.json; an {"en", "zh"} href gives each language its own anchor."""
+    if not is_bi(link["href"]):
+        cls_attr = f' class="{cls}"' if cls else ""
+        return f'<a{cls_attr} href="{href(link["href"])}">{bi(link["label"])}</a>'
+    label = link["label"] if is_bi(link["label"]) else {"en": link["label"], "zh": link["label"]}
+    c = f" {cls}" if cls else ""
+    return (f'<a class="lang-en{c}" href="{href(link["href"]["en"])}">{inline(label["en"])}</a>'
+            f'<a class="lang-zh{c}" lang="zh-Hant" href="{href(link["href"]["zh"])}">{inline(label["zh"])}</a>')
+
+
 def button(link: dict, cls: str) -> str:
-    return f'<a class="button {cls}" href="{href(link["href"])}">{bi(link["label"])}</a>'
+    return anchor(link, f"button {cls}")
 
 
 def render_page(page: dict, assets: dict) -> str:
@@ -531,7 +546,7 @@ def render_page(page: dict, assets: dict) -> str:
     # footer links
     links = [f'<a href="{href(gh)}">GitHub</a>']
     for link in page.get("links", []):
-        links.append(f'<a href="{href(link["href"])}">{bi(link["label"])}</a>')
+        links.append(anchor(link))
     lic = page.get("license") or {}
     if lic.get("href"):
         lic_href = lic["href"] if lic["href"].startswith("http") else f'{gh}/blob/{page.get("default_branch", "main")}/{lic["href"]}'
