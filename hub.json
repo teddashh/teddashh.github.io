@@ -335,16 +335,16 @@
       ],
       "ticks": [
         {
-          "en": "a text MUD, then wizard code.",
-          "zh": "文字 MUD，然後當巫師寫程式。"
+          "en": "a text MUD, then wizard code",
+          "zh": "文字 MUD，然後當巫師寫程式"
         },
         {
-          "en": "then real business systems.",
-          "zh": "之後是真實的企業系統。"
+          "en": "then real business systems",
+          "zh": "之後是真實的企業系統"
         },
         {
-          "en": "agents keep that heartbeat.",
-          "zh": "agent 也靠這個心跳。"
+          "en": "agents keep that heartbeat",
+          "zh": "agent 也靠這個心跳"
         }
       ],
       "caption": {
@@ -431,15 +431,15 @@
       "ticks": [
         {
           "en": "routine steps stay in code",
-          "zh": "例行步驟走程式。"
+          "zh": "例行步驟走程式"
         },
         {
           "en": "judgment is what wakes AI",
-          "zh": "判斷才要叫醒 AI。"
+          "zh": "判斷才要叫醒 AI"
         },
         {
           "en": "maybe 8 of 10 stay in code",
-          "zh": "十步可能有八步走程式。"
+          "zh": "十步可能有八步走程式"
         }
       ],
       "caption": {
