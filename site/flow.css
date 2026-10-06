@@ -319,7 +319,8 @@
 
 .fd > figcaption {
   margin: 0.85rem 0 0;
-  color: var(--fd-faint, currentColor);
+  color: var(--fd-text, currentColor);
+  font-weight: 600;
   font-size: 0.84rem;
   line-height: 1.45;
   text-wrap: pretty;

@@ -168,7 +168,8 @@ the page has `flows`:
 ```
 
 `--fd-surface` is the box fill. `--fd-edge` is rails and box strokes.
-`--fd-text` is titles. `--fd-faint` is notes, lane labels, and zone labels
+`--fd-text` is titles and the caption. The caption is bold.
+`--fd-faint` is notes, lane labels, and zone labels
 (the kit's `--ink-faint`, about 3.6:1 on the surface, used as secondary
 text). `--fd-accent` is the bright signal: core stroke, flowing dash, halo,
 pulse, and the selected lane. `--fd-accent-ink` is optional and falls back
