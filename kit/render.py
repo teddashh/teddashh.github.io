@@ -8,8 +8,9 @@ Usage:
 The page source of truth is site/page.json. Everything else in site/ is
 generated: index.html, 404.html, styles.css, lang.js, app.js, logo.svg,
 favicon.svg, robots.txt, sitemap.xml, .nojekyll, and copied screenshots
-under site/assets/. The GitHub Actions workflow is written to
-.github/workflows/pages.yml unless one already exists.
+under site/assets/. Pages that set "flows" also get flow.js and flow.css.
+The GitHub Actions workflow is written to .github/workflows/pages.yml
+unless one already exists.
 
 Standard library only.
 """
@@ -43,6 +44,32 @@ PALETTES = {
 ALLOWED_LEVELS = {"critical", "high", "medium", "ok", "info", "muted"}
 ALLOWED_STATES = {"ok", "wait", "warn", "fail"}
 ALLOWED_TERM = {"cmd", "out", "ok", "warn", "err", "dim"}
+FLOW_TONES = {"neutral", "accent", "warn", "info"}
+FLOW_ICONS = {
+    "chat", "route", "spark", "shield", "mask", "cloud", "check", "ledger",
+    "search", "people", "pool", "clock", "forward", "window", "database",
+    "hub", "wallet", "code", "terminal", "user", "gear", "lock", "doc",
+    "bolt", "globe", "eye", "key", "upload", "download", "bell", "image",
+    "music", "game",
+}
+# Appended to styles.css only when a page has flows. Signal and accent-2 are
+# too light to be small text on paper, so accent text and info are mixed
+# toward ink until they clear 4.5:1. The bright signal stays --fd-accent
+# for the rails, halo, and pulse.
+FLOW_MAP = """
+.fd {
+  --fd-surface: var(--paper-strong);
+  --fd-edge: var(--line);
+  --fd-text: var(--ink);
+  --fd-faint: var(--ink-faint);
+  --fd-accent: var(--signal);
+  --fd-accent-ink: color-mix(in srgb, var(--signal) 60%, var(--ink));
+  --fd-warn: var(--kicker);
+  --fd-info: color-mix(in srgb, var(--accent-2) 40%, var(--ink));
+  --fd-font: inherit;
+  --fd-mono: var(--mono);
+}
+"""
 
 BANNED_DASHES = {"\u2014": "em-dash", "\u2015": "horizontal bar", "\u2013": "en-dash"}
 
@@ -100,7 +127,7 @@ def validate(page: dict) -> list[str]:
         for term in PRIVATE_TERMS:
             if term in lowered:
                 problems.append(f"{path}: mentions a private or employer term {term!r}")
-        if path.endswith(".zh") and not path.endswith(".href.zh"):
+        if re.search(r"(?:^|\.)zh(?:$|\[)", path) and not re.search(r"(?:^|\.)href\.zh(?:$|\[)", path):
             bad = sorted({c for c in text if c in SIMPLIFIED_ONLY})
             if bad:
                 problems.append(f"{path}: Simplified-only characters {''.join(bad)!r}; use Traditional Chinese (Taiwan)")
@@ -141,19 +168,165 @@ def validate(page: dict) -> list[str]:
     for line in visual.get("lines", []) if vtype == "terminal" else []:
         if line.get("kind", "out") not in ALLOWED_TERM:
             problems.append(f"terminal line kind must be one of {sorted(ALLOWED_TERM)}")
+    problems.extend(validate_flows(page))
     return problems
 
 
 def walk_bilingual(node, path="$"):
     if isinstance(node, dict):
-        if set(node) & {"en", "zh"} and set(node) <= {"en", "zh"}:
-            yield path, node
-            return
+        if set(node) <= {"en", "zh"} and (set(node) & {"en", "zh"}):
+            if all(isinstance(value, str) for value in node.values()):
+                yield path, node
+                return
         for key, value in node.items():
             yield from walk_bilingual(value, f"{path}.{key}")
     elif isinstance(node, list):
         for index, value in enumerate(node):
             yield from walk_bilingual(value, f"{path}[{index}]")
+
+
+def _index(value) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def _section_exists(page: dict, sid: str) -> bool:
+    if sid in {"top", "features", "status"}:
+        return True
+    if sid == "how":
+        return bool(page.get("flow"))
+    if sid == "screens":
+        return bool(page.get("showcase"))
+    if sid == "architecture":
+        return bool(page.get("architecture"))
+    if sid == "decisions":
+        return bool(page.get("decisions"))
+    if sid == "start":
+        return bool(page.get("quickstart"))
+    return False
+
+
+def validate_flows(page: dict) -> list[str]:
+    flows = page.get("flows")
+    if flows is None:
+        return []
+    if not isinstance(flows, list):
+        return ["$.flows: must be a list"]
+    problems: list[str] = []
+    seen: set[str] = set()
+    reserved = {"top", "how", "features", "screens", "architecture", "decisions", "start", "status", "main"}
+    if page.get("flow") and any(isinstance(item, dict) and not item.get("after") for item in flows):
+        problems.append("$.flows: this page already has a how section; set after on each flow")
+    for i, flow in enumerate(flows):
+        path = f"$.flows[{i}]"
+        if not isinstance(flow, dict):
+            problems.append(f"{path}: must be an object")
+            continue
+        fid = flow.get("id")
+        if not isinstance(fid, str) or not re.fullmatch(r"[a-z][a-z0-9-]{0,40}", fid):
+            problems.append(f"{path}.id: a lowercase id (letters, digits, hyphens)")
+        elif fid in reserved or fid in seen:
+            problems.append(f"{path}.id: {fid!r} is already used")
+        else:
+            seen.add(fid)
+        for field in ("heading", "intro", "caption"):
+            if not is_bi(flow.get(field)):
+                problems.append(f"{path}.{field}: needs en and zh")
+        spec = flow.get("spec")
+        if not isinstance(spec, dict):
+            problems.append(f"{path}.spec: required")
+            continue
+        columns = spec.get("columns")
+        if (not isinstance(columns, list) or not columns
+                or any(not isinstance(col, list) or not col for col in columns)):
+            problems.append(f"{path}.spec.columns: a non-empty list of non-empty columns")
+            columns = []
+        if "sinks" in spec and not isinstance(spec.get("sinks"), list):
+            problems.append(f"{path}.spec.sinks: a list of step indexes")
+            sinks = []
+        else:
+            sinks = spec.get("sinks") or []
+        steps = flow.get("steps")
+        if not isinstance(steps, list) or not steps:
+            problems.append(f"{path}.steps: at least one step")
+            steps = []
+        placed: list[int] = []
+        bad_index = False
+        for column in columns:
+            for step in column:
+                if not _index(step):
+                    bad_index = True
+                else:
+                    placed.append(step)
+        for step in sinks:
+            if not _index(step):
+                bad_index = True
+            else:
+                placed.append(step)
+        if bad_index:
+            problems.append(f"{path}.spec: step indexes must be integers")
+        elif steps and sorted(placed) != list(range(len(steps))):
+            problems.append(f"{path}.spec: each step index must be placed exactly once (columns plus sinks)")
+        column_steps = [step for column in columns for step in column if _index(step)]
+        if not _index(spec.get("core")) or spec.get("core") not in column_steps:
+            problems.append(f"{path}.spec.core: must be a step that sits in a column")
+        for s, step in enumerate(steps):
+            sp = f"{path}.steps[{s}]"
+            if not isinstance(step, dict):
+                problems.append(f"{sp}: must be an object")
+                continue
+            if not is_bi(step.get("title")) or not is_bi(step.get("note")):
+                problems.append(f"{sp}: title and note need en and zh")
+            if step.get("tone") not in FLOW_TONES:
+                problems.append(f"{sp}.tone: one of {', '.join(sorted(FLOW_TONES))}")
+            if step.get("icon") not in FLOW_ICONS:
+                problems.append(f"{sp}.icon: unknown icon")
+        ticks = flow.get("ticks")
+        if not isinstance(ticks, list) or not 1 <= len(ticks) <= 4:
+            problems.append(f"{path}.ticks: 1 to 4 lines")
+        else:
+            for t, tick in enumerate(ticks):
+                if not is_bi(tick):
+                    problems.append(f"{path}.ticks[{t}]: needs en and zh")
+        if "lanes" in spec and (
+            not isinstance(spec.get("lanes"), list)
+            or any(not isinstance(name, str) or not name.strip() for name in spec["lanes"])
+        ):
+            problems.append(f"{path}.spec.lanes: a list of names")
+            lanes: list = []
+        else:
+            lanes = spec.get("lanes") or []
+        if "selectedLane" in spec:
+            sel = spec.get("selectedLane")
+            if not _index(sel) or not lanes or sel < 0 or sel >= len(lanes):
+                problems.append(f"{path}.spec.selectedLane: out of range")
+        groups = len(columns) + (1 if lanes else 0)
+        if "boundaryAfter" in spec and spec.get("boundaryAfter") is not None:
+            boundary = spec.get("boundaryAfter")
+            if not _index(boundary) or groups < 2 or boundary < 0 or boundary >= groups - 1:
+                problems.append(f"{path}.spec.boundaryAfter: a column that still has a column after it")
+            zones = flow.get("zones")
+            en_z = zones.get("en") if isinstance(zones, dict) else None
+            zh_z = zones.get("zh") if isinstance(zones, dict) else None
+            if not isinstance(en_z, list) or not isinstance(zh_z, list) or len(en_z) != 3 or len(zh_z) != 3:
+                problems.append(f"{path}.zones: en and zh lists of three labels (inside, boundary, outside)")
+            else:
+                for lang in ("en", "zh"):
+                    labels = zones[lang]
+                    if any(not isinstance(label, str) or not label.strip() for label in labels):
+                        problems.append(f"{path}.zones.{lang}: three non-empty labels")
+        elif flow.get("zones"):
+            problems.append(f"{path}.zones: set boundaryAfter, or remove zones")
+        if "loop" in spec and not isinstance(spec.get("loop"), bool):
+            problems.append(f"{path}.spec.loop: true or false")
+        elif spec.get("loop") and len(columns) < 2:
+            problems.append(f"{path}.spec.loop: needs at least two columns")
+        if "meter" in spec and not isinstance(spec.get("meter"), bool):
+            problems.append(f"{path}.spec.meter: true or false")
+        if flow.get("after") is not None:
+            after = flow.get("after")
+            if not isinstance(after, str) or not _section_exists(page, after):
+                problems.append(f"{path}.after: unknown section id {after!r}")
+    return problems
 
 
 # ----------------------------------------------------------------------------
@@ -364,6 +537,123 @@ def button(link: dict, cls: str) -> str:
     return anchor(link, f"button {cls}")
 
 
+def flow_payload(spec: dict) -> dict:
+    payload = {"columns": spec["columns"], "core": spec["core"]}
+    if spec.get("sinks"):
+        payload["sinks"] = spec["sinks"]
+    if spec.get("lanes"):
+        payload["lanes"] = spec["lanes"]
+    if spec.get("selectedLane") is not None:
+        payload["selectedLane"] = spec["selectedLane"]
+    if spec.get("meter"):
+        payload["meter"] = True
+    if spec.get("boundaryAfter") is not None:
+        payload["boundaryAfter"] = spec["boundaryAfter"]
+    if spec.get("loop"):
+        payload["loop"] = True
+    return payload
+
+
+def render_flow_figure(flow: dict, lang: str) -> str:
+    """One language. The other language is a second figure, hidden by the page."""
+    spec = flow["spec"]
+    data = html.escape(
+        json.dumps(flow_payload(spec), ensure_ascii=False, separators=(",", ":")),
+        quote=True,
+    )
+    order = [step for column in spec["columns"] for step in column]
+    order += list(spec.get("sinks") or [])
+    items = []
+    for position, index in enumerate(order):
+        step = flow["steps"][index]
+        link = '<span class="fd-link" aria-hidden="true"></span>' if position < len(order) - 1 else ""
+        items.append(
+            f'<li class="fd-node" data-step="{index}" data-tone="{html.escape(step["tone"], quote=True)}"'
+            f' data-icon="{html.escape(step["icon"], quote=True)}">'
+            f'<span class="fd-head"><span class="fd-chip"></span>'
+            f'<span class="fd-step" aria-hidden="true">{position + 1:02d}</span></span>'
+            f'<p class="fd-title">{inline(step["title"][lang])}</p>'
+            f'<p class="fd-note">{inline(step["note"][lang])}</p>{link}</li>'
+        )
+    ticks = "".join(f"<li>{inline(tick[lang])}</li>" for tick in flow["ticks"])
+    zones = ""
+    if spec.get("boundaryAfter") is not None and flow.get("zones"):
+        zones = "<ul class=\"fd-zones\">" + "".join(
+            f"<li>{inline(label)}</li>" for label in flow["zones"][lang]
+        ) + "</ul>"
+    lang_cls = "lang-en" if lang == "en" else "lang-zh"
+    lang_attr = "" if lang == "en" else ' lang="zh-Hant"'
+    return (
+        f'<figure class="fd {lang_cls}"{lang_attr} data-fd="{data}">'
+        f'<ol class="fd-legend">{"".join(items)}</ol>'
+        f'<ul class="fd-ticks">{ticks}</ul>{zones}'
+        f"<figcaption>{inline(flow['caption'][lang])}</figcaption></figure>"
+    )
+
+
+def render_flow_section(flow: dict) -> str:
+    return (
+        f'<section class="section" id="{html.escape(flow["id"])}">'
+        f'{heading({"title": flow["heading"], "intro": flow["intro"]})}'
+        f'{render_flow_figure(flow, "en")}{render_flow_figure(flow, "zh")}</section>'
+    )
+
+
+def render_default_flow_section(flows: list) -> str:
+    stories = []
+    for flow in flows:
+        stories.append(
+            f'<div class="fd-story" id="{html.escape(flow["id"])}">'
+            f'{bi(flow["heading"], "h3")}{bi(flow["intro"], "p")}'
+            f'{render_flow_figure(flow, "en")}{render_flow_figure(flow, "zh")}</div>'
+        )
+    head = heading({"title": {"en": "How it works", "zh": "運作方式"}})
+    return f'<section class="section" id="how">{head}{"".join(stories)}</section>'
+
+
+def place_flows(parts: list, page: dict) -> list:
+    """Insert flow sections. Pages without flows get the same part list back."""
+    flows = page.get("flows") or []
+    if not flows:
+        return parts
+
+    def find(token: str):
+        for index, part in enumerate(parts):
+            if token in part:
+                return index
+        return None
+
+    jobs = []
+    default = [flow for flow in flows if not flow.get("after")]
+    if default:
+        first = None
+        for token in (
+            'class="band"', 'id="how"', 'id="features"', 'id="screens"',
+            'id="architecture"', 'id="decisions"', 'id="start"', 'id="status"',
+        ):
+            first = find(token)
+            if first is not None:
+                break
+        jobs.append((first if first is not None else -1, render_default_flow_section(default)))
+    grouped: dict = {}
+    order: list = []
+    for flow in flows:
+        after = flow.get("after")
+        if not after:
+            continue
+        if after not in grouped:
+            grouped[after] = []
+            order.append(after)
+        grouped[after].append(flow)
+    for key in order:
+        idx = find(f'id="{key}"')
+        block = "\n".join(render_flow_section(flow) for flow in grouped[key])
+        jobs.append((idx if idx is not None else len(parts) - 1, block))
+    for idx, block in reversed(sorted(jobs, key=lambda job: job[0])):
+        parts.insert(idx + 1, block)
+    return parts
+
+
 def render_page(page: dict, assets: dict) -> str:
     pal = palette_of(page)
     repo = page["repo"]
@@ -385,6 +675,11 @@ def render_page(page: dict, assets: dict) -> str:
         label = sec.get("nav") or DEFAULT_NAV[key]
         nav_items.append(f'<a href="#{SECTION_IDS[key]}">{bi(label)}</a>')
     nav_items = nav_items[:4]
+    if not page.get("flow") and any(
+        isinstance(item, dict) and not item.get("after") for item in (page.get("flows") or [])
+    ):
+        nav_items.insert(0, f'<a href="#how">{bi({"en": "How it works", "zh": "運作方式"})}</a>')
+        nav_items = nav_items[:4]
 
     hero = page["hero"]
     notes = "".join(bi(n) if is_bi(n) else f"<span>{inline(n)}</span>" for n in hero.get("notes", []))
@@ -569,7 +864,11 @@ def render_page(page: dict, assets: dict) -> str:
     if lic.get("spdx"):
         head_ld["license"] = f"https://spdx.org/licenses/{lic['spdx']}.html"
 
+    flow_head = ""
+    if page.get("flows"):
+        flow_head = '<link rel="stylesheet" href="flow.css">\n<script src="flow.js" defer></script>\n'
     nav_html = "".join(nav_items)
+    parts = place_flows(parts, page)
     body = "\n".join(parts)
     return f"""<!doctype html>
 <!-- Generated from site/page.json by the project-page kit (https://github.com/teddashh/teddashh.github.io/tree/main/kit). Edit page.json, then re-render. -->
@@ -594,7 +893,7 @@ def render_page(page: dict, assets: dict) -> str:
 <link rel="stylesheet" href="styles.css">
 <script src="lang.js"></script>
 <script src="app.js" defer></script>
-<script type="application/ld+json">{json.dumps(head_ld, ensure_ascii=False)}</script>
+{flow_head}<script type="application/ld+json">{json.dumps(head_ld, ensure_ascii=False)}</script>
 </head>
 <body>
 <a class="skip-link" href="#main">{bi({"en": "Skip to content", "zh": "跳到主要內容"})}</a>
@@ -761,9 +1060,20 @@ def main(argv: list[str]) -> int:
     theme = ":root {\n" + "".join(
         f"  --{k.replace('accent2', 'accent-2')}: {v};\n" for k, v in pal.items()
     ) + "}\n\n"
-    (site / "styles.css").write_text(theme + (KIT / "base.css").read_text(encoding="utf-8"), encoding="utf-8")
+    css = theme + (KIT / "base.css").read_text(encoding="utf-8")
+    if page.get("flows"):
+        css += FLOW_MAP
+    (site / "styles.css").write_text(css, encoding="utf-8")
     shutil.copyfile(KIT / "lang.js", site / "lang.js")
     shutil.copyfile(KIT / "app.js", site / "app.js")
+    if page.get("flows"):
+        shutil.copyfile(KIT / "flow.js", site / "flow.js")
+        shutil.copyfile(KIT / "flow.css", site / "flow.css")
+    else:
+        for extra in ("flow.js", "flow.css"):
+            stale = site / extra
+            if stale.is_file():
+                stale.unlink()
     (site / "index.html").write_text(html_out, encoding="utf-8")
     (site / "404.html").write_text(render_404(page), encoding="utf-8")
     (site / "logo.svg").write_text(logo_svg(page["mark"], pal, 48), encoding="utf-8")
