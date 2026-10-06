@@ -16,7 +16,7 @@ requests. Standard-library Python; no build step on the reader's side.
 | `hub.css` | extra styles for the directory page |
 | `lang.js` | picks the language before first paint: `?lang=`, then the saved choice, then the browser language |
 | `app.js` | language switch, menu, copy buttons, and word-boundary line breaks for Chinese headings |
-| `flow.js` | animated flow diagrams. Copied into `site/` only when `page.json` has `flows` |
+| `flow.js` | animated flow diagrams. Copied into a project `site/` only when `page.json` has `flows`, and into this repository's `site/` only when `hub.json` has `flows` |
 | `flow.css` | styles for those diagrams. Same copy rule as `flow.js` |
 | `flow.test.js` | layout and status-line tests (`node --test kit/flow.test.js`) |
 | `flow-demo.html` | local demo of every layout and palette. Not linked from the hub |
@@ -73,9 +73,12 @@ diagrams are the separate `flows` list below. A worked example lives at
 ## Animated flow diagrams (`flows`)
 
 Optional. A page that omits `flows` renders the same HTML and CSS as before,
-and does not receive `flow.js` or `flow.css`. Each item is one diagram, in
-both languages. The page renders one `<figure class="fd">` per language and
-hides the inactive one with the existing language switch.
+and does not receive `flow.js` or `flow.css`. `hub.json` may carry the same
+list. `render_hub.py` checks it with these rules, appends the same `--fd-*`
+mapping, and copies the two files only when the list is present. A hub
+without `flows` renders the same files as before. Each item is one diagram,
+in both languages. The page renders one `<figure class="fd">` per language
+and hides the inactive one with the existing language switch.
 
 ```json
 {

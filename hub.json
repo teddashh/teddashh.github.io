@@ -2,7 +2,7 @@
   "name": "Ted Huang",
   "mark": "TH",
   "palette": "lime",
-  "verified": "2026-10-01",
+  "verified": "2026-10-06",
   "title": {"en": "Open-source projects", "zh": "開源專案"},
   "description": {
     "en": "{count} open-source projects by Ted Huang: multi-AI tools, agent infrastructure, security, and a few small experiments. Each one has its own bilingual project page.",
@@ -253,5 +253,339 @@
     {"href": "https://github.com/teddashh", "label": "GitHub"},
     {"href": "https://www.ted-h.com", "label": "ted-h.com"},
     {"href": "https://github.com/teddashh/teddashh.github.io/tree/main/kit", "label": {"en": "Page kit", "zh": "頁面產生器"}}
+  ],
+  "flows": [
+    {
+      "id": "page-build",
+      "heading": {
+        "en": "How a project page is made",
+        "zh": "專案頁怎麼做成"
+      },
+      "intro": {
+        "en": "Each repository keeps its own page.json. The kit turns that file into the static page GitHub Pages serves.",
+        "zh": "每個 repo 自己留一份 page.json。套件把這個檔做成 GitHub Pages 上的靜態頁。"
+      },
+      "spec": {
+        "columns": [
+          [
+            0
+          ],
+          [
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "core": 2
+      },
+      "steps": [
+        {
+          "title": {
+            "en": "Read the repo",
+            "zh": "讀專案內容"
+          },
+          "note": {
+            "en": "The text has to match that repository's README and the code that runs today.",
+            "zh": "文字必須對得上該 repo 的 README，以及現在真正在跑的程式。"
+          },
+          "tone": "neutral",
+          "icon": "doc"
+        },
+        {
+          "title": {
+            "en": "Write page.json",
+            "zh": "寫來源檔"
+          },
+          "note": {
+            "en": "site/page.json holds both languages, the sections, and the verified date.",
+            "zh": "site/page.json 放兩種語言、各個段落，以及查核日期。"
+          },
+          "tone": "neutral",
+          "icon": "code"
+        },
+        {
+          "title": {
+            "en": "Run render.py",
+            "zh": "跑產生器"
+          },
+          "note": {
+            "en": "The kit checks the file, then writes the static page into that repo's site/.",
+            "zh": "套件先檢查這個檔，再把靜態頁寫進該 repo 的 site/。"
+          },
+          "tone": "accent",
+          "icon": "gear"
+        },
+        {
+          "title": {
+            "en": "Publish the page",
+            "zh": "發佈成頁面"
+          },
+          "note": {
+            "en": "That repo's Pages workflow serves site/ at teddashh.github.io, under the repository name.",
+            "zh": "該 repo 的 Pages 流程把 site/ 發佈到 teddashh.github.io 的專案路徑。"
+          },
+          "tone": "info",
+          "icon": "globe"
+        }
+      ],
+      "ticks": [
+        {
+          "en": "README and code come first",
+          "zh": "先對 README 和程式"
+        },
+        {
+          "en": "page.json is the source",
+          "zh": "page.json 才是來源"
+        },
+        {
+          "en": "render.py writes site/",
+          "zh": "render.py 寫出 site/"
+        }
+      ],
+      "caption": {
+        "en": "A project page starts from that repository's README and from what its code does today. Those facts are written into site/page.json, in English and Traditional Chinese. kit/render.py checks the file and writes the static page into site/. The repository's own Pages workflow then publishes site/ at teddashh.github.io, followed by the repository name. This repository hosts the directory and the kit, not the other projects' pages.",
+        "zh": "專案頁的內容來自該 repo 的 README，以及它的程式現在真正會做的事。這些事實寫進 site/page.json，英文和繁體中文都有。kit/render.py 檢查這個檔，再把靜態頁寫進 site/。該 repo 自己的 Pages 流程接著把 site/ 發佈到 teddashh.github.io 的專案路徑。這個 repo 放的是目錄和套件，不是其他專案的頁面。"
+      }
+    },
+    {
+      "id": "one-list",
+      "heading": {
+        "en": "One list, three homes",
+        "zh": "一份清單三處"
+      },
+      "intro": {
+        "en": "hub.json is the only project list. The directory, the GitHub profile README, and the projects page on ted-h.com are built from it.",
+        "zh": "hub.json 是唯一的專案清單。這份目錄、GitHub 個人頁 README，以及 ted-h.com 的專案頁，都從它做出來。"
+      },
+      "spec": {
+        "columns": [
+          [
+            0
+          ],
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "core": 0
+      },
+      "steps": [
+        {
+          "title": {
+            "en": "hub.json",
+            "zh": "hub.json"
+          },
+          "note": {
+            "en": "One file lists every project, with its group, one-line description, stack, and status.",
+            "zh": "一個檔列出每個專案的分組、一句話、技術堆疊和狀態。"
+          },
+          "tone": "accent",
+          "icon": "hub"
+        },
+        {
+          "title": {
+            "en": "This directory",
+            "zh": "這份目錄"
+          },
+          "note": {
+            "en": "render_hub.py reads the file and writes the directory page you are on.",
+            "zh": "render_hub.py 讀這個檔，寫出你正在看的這份目錄。"
+          },
+          "tone": "neutral",
+          "icon": "window"
+        },
+        {
+          "title": {
+            "en": "Profile README",
+            "zh": "個人頁清單"
+          },
+          "note": {
+            "en": "render_profile.py fills the project block of the GitHub profile README, in English and Chinese.",
+            "zh": "render_profile.py 填上 GitHub 個人頁 README 的專案區塊，中英文都有。"
+          },
+          "tone": "neutral",
+          "icon": "doc"
+        },
+        {
+          "title": {
+            "en": "ted-h.com",
+            "zh": "官網專案"
+          },
+          "note": {
+            "en": "The projects page at ted-h.com/projects shows this same list.",
+            "zh": "ted-h.com/projects 的專案頁顯示的是同一份清單。"
+          },
+          "tone": "info",
+          "icon": "globe"
+        }
+      ],
+      "ticks": [
+        {
+          "en": "hub.json is the only list",
+          "zh": "hub.json 是唯一清單"
+        },
+        {
+          "en": "the kit writes two of the pages",
+          "zh": "套件寫出其中兩個頁面"
+        },
+        {
+          "en": "ted-h.com/projects matches it",
+          "zh": "ted-h.com 顯示同一份"
+        }
+      ],
+      "caption": {
+        "en": "hub.json is the single list of projects: group, one-line description, stack, and status. kit/render_hub.py reads it and writes this directory. kit/render_profile.py reads it and fills the project block of the GitHub profile README, in English and Traditional Chinese, plus a projects directory beside that README. The projects page at ted-h.com/projects is built from the same list, with the same groups, lines, stacks, and status labels.",
+        "zh": "hub.json 是唯一的專案清單：分組、一句話、技術堆疊和狀態。kit/render_hub.py 讀它，寫出這份目錄。kit/render_profile.py 讀它，填上 GitHub 個人頁 README 的專案區塊，英文和繁體中文都有，並在旁邊產生 projects 目錄。ted-h.com/projects 的專案頁也是從同一份清單做出來的，分組、介紹、技術堆疊和狀態標籤都相同。"
+      }
+    },
+    {
+      "id": "status-words",
+      "heading": {
+        "en": "What the status labels mean",
+        "zh": "狀態標籤是什麼意思"
+      },
+      "intro": {
+        "en": "Every project has one status. The card prints that label, and Active is the only one colored as ongoing work.",
+        "zh": "每個專案只有一個狀態。卡片印出對應的標籤，只有持續開發會用進行中的顏色。"
+      },
+      "spec": {
+        "columns": [
+          [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          [
+            7
+          ]
+        ],
+        "core": 7
+      },
+      "steps": [
+        {
+          "title": {
+            "en": "Active",
+            "zh": "持續開發"
+          },
+          "note": {
+            "en": "Work on this project is continuing. This is the only label drawn in the kicker color.",
+            "zh": "這個專案還在持續開發。目錄上只有這個標籤用強調色。"
+          },
+          "tone": "accent",
+          "icon": "bolt"
+        },
+        {
+          "title": {
+            "en": "Stable",
+            "zh": "穩定"
+          },
+          "note": {
+            "en": "The project is being kept in a steady state.",
+            "zh": "這個專案維持在穩定狀態。"
+          },
+          "tone": "neutral",
+          "icon": "check"
+        },
+        {
+          "title": {
+            "en": "Early stage",
+            "zh": "早期階段"
+          },
+          "note": {
+            "en": "Work has started, and the project is not presented as finished.",
+            "zh": "已經開工，不把它說成已經完成。"
+          },
+          "tone": "info",
+          "icon": "spark"
+        },
+        {
+          "title": {
+            "en": "Paused",
+            "zh": "暫停開發"
+          },
+          "note": {
+            "en": "Development on this project is paused.",
+            "zh": "這個專案目前暫停開發。"
+          },
+          "tone": "warn",
+          "icon": "clock"
+        },
+        {
+          "title": {
+            "en": "Notes",
+            "zh": "筆記"
+          },
+          "note": {
+            "en": "It is a set of notes.",
+            "zh": "這是一份筆記。"
+          },
+          "tone": "neutral",
+          "icon": "doc"
+        },
+        {
+          "title": {
+            "en": "Utility",
+            "zh": "工具倉庫"
+          },
+          "note": {
+            "en": "It is a utility repository.",
+            "zh": "這是一個工具倉庫。"
+          },
+          "tone": "neutral",
+          "icon": "gear"
+        },
+        {
+          "title": {
+            "en": "Toy",
+            "zh": "小玩具"
+          },
+          "note": {
+            "en": "It is a small toy.",
+            "zh": "這是一個小玩具。"
+          },
+          "tone": "neutral",
+          "icon": "game"
+        },
+        {
+          "title": {
+            "en": "On the card",
+            "zh": "印在卡片"
+          },
+          "note": {
+            "en": "The directory prints exactly one of these seven labels.",
+            "zh": "目錄的卡片正好印出這七個標籤的其中一個。"
+          },
+          "tone": "accent",
+          "icon": "window"
+        }
+      ],
+      "ticks": [
+        {
+          "en": "one status on every project",
+          "zh": "每個專案一個狀態"
+        },
+        {
+          "en": "only Active uses the kicker color",
+          "zh": "只有持續開發上色"
+        },
+        {
+          "en": "seven labels, used as written",
+          "zh": "七個標籤，照字面用"
+        }
+      ],
+      "caption": {
+        "en": "Each project in hub.json has one status: Active (work is continuing), Stable (kept steady), Early stage (started, not presented as finished), Paused (development is paused), Notes, Utility, or Toy. The directory card prints that label. Only Active is colored with the kicker color. The profile README and ted-h.com/projects show the same seven words.",
+        "zh": "hub.json 裡每個專案有一個狀態：持續開發（還在做）、穩定（維持穩定）、早期階段（開工了，不說成已完成）、暫停開發、筆記、工具倉庫，或小玩具。目錄卡片印出這個標籤。只有持續開發用強調色。個人頁 README 和 ted-h.com/projects 用的也是這七個詞。"
+      }
+    }
   ]
 }
