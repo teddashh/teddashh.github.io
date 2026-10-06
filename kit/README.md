@@ -133,7 +133,8 @@ the current line fades fully out before the next fades in. With
 
 `after` is an existing section id (`top`, `how` when the short `flow` list
 is present, `features`, `screens`, `architecture`, `decisions`, `start`,
-`status`). The diagram is inserted immediately after that section. Without
+`status`, and `about` when that section is in the file, as on the hub).
+The diagram is inserted immediately after that section. Without
 `after`, every such diagram shares a new section `id="how"` titled "How it
 works" / 「運作方式」, placed after the first content block, and the nav gains
 a link to it. A page that already has the short `flow` section must set

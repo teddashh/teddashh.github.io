@@ -192,6 +192,8 @@ def _index(value) -> bool:
 def _section_exists(page: dict, sid: str) -> bool:
     if sid in {"top", "features", "status"}:
         return True
+    if sid == "about":
+        return bool(page.get("about"))
     if sid == "how":
         return bool(page.get("flow"))
     if sid == "screens":
