@@ -444,147 +444,114 @@
       }
     },
     {
-      "id": "status-words",
+      "id": "which-language",
       "heading": {
-        "en": "What the status labels mean",
-        "zh": "狀態標籤是什麼意思"
+        "en": "Which language you see",
+        "zh": "你會看到哪種語言"
       },
       "intro": {
-        "en": "Every project has one status. The card prints that label, and Active is the only one colored as ongoing work.",
-        "zh": "每個專案只有一個狀態。卡片印出對應的標籤，只有持續開發會用進行中的顏色。"
+        "en": "lang.js picks the language before the page paints, in the order drawn here. After that, the EN and 繁中 buttons swap the text already in the page, update the title and description, save the choice, and rewrite the link.",
+        "zh": "lang.js 在畫面畫出來之前選定語言，順序如圖。之後按 EN 或繁中，會就地換掉頁面上的文字、更新標題和說明、記住選擇，並改寫網址。"
       },
       "spec": {
         "columns": [
           [
-            0,
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
+            0
           ],
           [
-            7
+            1
+          ],
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            4
           ]
         ],
-        "core": 7
+        "core": 0
       },
       "steps": [
         {
           "title": {
-            "en": "Active",
-            "zh": "持續開發"
+            "en": "Link parameter",
+            "zh": "網址參數"
           },
           "note": {
-            "en": "Work on this project is continuing. This is the only label drawn in the kicker color.",
-            "zh": "這個專案還在持續開發。目錄上只有這個標籤用強調色。"
+            "en": "A ?lang= value starting with zh or en wins, and zh-TW selects Chinese.",
+            "zh": "以 zh 或 en 開頭的 ?lang= 優先，zh-TW 會選中文。"
           },
           "tone": "accent",
-          "icon": "bolt"
+          "icon": "globe"
         },
         {
           "title": {
-            "en": "Stable",
-            "zh": "穩定"
+            "en": "Saved choice",
+            "zh": "記住的選擇"
           },
           "note": {
-            "en": "The project is being kept in a steady state.",
-            "zh": "這個專案維持在穩定狀態。"
+            "en": "Otherwise the page reads localStorage key tedh-project-lang.",
+            "zh": "否則讀這個瀏覽器 localStorage 的 tedh-project-lang。"
           },
           "tone": "neutral",
-          "icon": "check"
+          "icon": "database"
         },
         {
           "title": {
-            "en": "Early stage",
-            "zh": "早期階段"
+            "en": "Browser list",
+            "zh": "瀏覽器清單"
           },
           "note": {
-            "en": "Work has started, and the project is not presented as finished.",
-            "zh": "已經開工，不把它說成已經完成。"
+            "en": "Otherwise any zh entry in the browser's language list selects Chinese.",
+            "zh": "再不然，瀏覽器語言清單裡有 zh 就選中文。"
           },
           "tone": "info",
-          "icon": "spark"
+          "icon": "window"
         },
         {
           "title": {
-            "en": "Paused",
-            "zh": "暫停開發"
+            "en": "English",
+            "zh": "否則英文"
           },
           "note": {
-            "en": "Development on this project is paused.",
-            "zh": "這個專案目前暫停開發。"
-          },
-          "tone": "warn",
-          "icon": "clock"
-        },
-        {
-          "title": {
-            "en": "Notes",
-            "zh": "筆記"
-          },
-          "note": {
-            "en": "It is a set of notes.",
-            "zh": "這是一份筆記。"
+            "en": "When that list has no zh entry, the page stays in English.",
+            "zh": "清單裡沒有 zh 時，頁面就用英文。"
           },
           "tone": "neutral",
           "icon": "doc"
         },
         {
           "title": {
-            "en": "Utility",
-            "zh": "工具倉庫"
+            "en": "EN or 繁中",
+            "zh": "語言按鈕"
           },
           "note": {
-            "en": "It is a utility repository.",
-            "zh": "這是一個工具倉庫。"
+            "en": "Those buttons swap the text already in the HTML, update the title and description, save the choice, and rewrite the link.",
+            "zh": "按 EN 或繁中會就地換字、更新標題和說明、記住選擇，並改寫網址。"
           },
-          "tone": "neutral",
-          "icon": "gear"
-        },
-        {
-          "title": {
-            "en": "Toy",
-            "zh": "小玩具"
-          },
-          "note": {
-            "en": "It is a small toy.",
-            "zh": "這是一個小玩具。"
-          },
-          "tone": "neutral",
-          "icon": "game"
-        },
-        {
-          "title": {
-            "en": "On the card",
-            "zh": "印在卡片"
-          },
-          "note": {
-            "en": "The directory prints exactly one of these seven labels.",
-            "zh": "目錄的卡片正好印出這七個標籤的其中一個。"
-          },
-          "tone": "accent",
-          "icon": "window"
+          "tone": "info",
+          "icon": "route"
         }
       ],
       "ticks": [
         {
-          "en": "one status on every project",
-          "zh": "每個專案一個狀態"
+          "en": "a zh or en ?lang= value wins",
+          "zh": "網址參數 zh 或 en 優先"
         },
         {
-          "en": "only Active uses the kicker color",
-          "zh": "只有持續開發上色"
+          "en": "then the saved key, then the browser",
+          "zh": "再看記住的選擇與瀏覽器"
         },
         {
-          "en": "seven labels, used as written",
-          "zh": "七個標籤，照字面用"
+          "en": "EN and 繁中 rewrite the link",
+          "zh": "EN 與繁中會改寫網址"
         }
       ],
       "caption": {
-        "en": "Each project in hub.json has one status: Active (work is continuing), Stable (kept steady), Early stage (started, not presented as finished), Paused (development is paused), Notes, Utility, or Toy. The directory card prints that label. Only Active is colored with the kicker color. The profile README and ted-h.com/projects show the same seven words.",
-        "zh": "hub.json 裡每個專案有一個狀態：持續開發（還在做）、穩定（維持穩定）、早期階段（開工了，不說成已完成）、暫停開發、筆記、工具倉庫，或小玩具。目錄卡片印出這個標籤。只有持續開發用強調色。個人頁 README 和 ted-h.com/projects 用的也是這七個詞。"
+        "en": "This directory loads the same lang.js and app.js as a project page. lang.js runs before paint. A ?lang= value that starts with zh or en wins, so the profile README and the zh-Hant alternate link use ?lang=zh-TW to select Chinese. Otherwise it reads localStorage key tedh-project-lang. Otherwise it scans the browser's language list and selects Chinese if any entry starts with zh, or English if none does. Both languages are already in the HTML, and the page shows one of them. The buttons are labeled EN and 繁中. Pressing one shows that language, sets the document title and the description, stores zh or en under tedh-project-lang, and rewrites the link: ?lang=zh-TW for Chinese, and no lang parameter for English. Opening the page also stores the choice it already made, and does not change the link until a button is pressed.",
+        "zh": "這份目錄載入的 lang.js 和 app.js 與專案頁相同。lang.js 在畫面畫出來之前執行。以 zh 或 en 開頭的 ?lang= 優先，所以個人頁 README 和 zh-Hant 的替代連結用 ?lang=zh-TW 來選中文。否則讀 localStorage 的 tedh-project-lang。再不然就看瀏覽器的語言清單，任一項以 zh 開頭就選中文，都沒有就用英文。兩種語言都已經在同一份 HTML 裡，頁面只顯示其中一種。按鈕上的字是 EN 和繁中。按下之後會切換顯示的語言、設定標題和說明、把 zh 或 en 存進 tedh-project-lang，並改寫網址：中文加上 ?lang=zh-TW，英文則拿掉 lang 參數。打開頁面時也會把已經選定的語言存起來，但在按下按鈕之前不會改網址。"
       }
     }
   ]
