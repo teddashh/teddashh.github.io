@@ -6,7 +6,10 @@ Usage:
     python3 kit/render_hub.py [repo-root] --check   # validate only
 
 Shares the look, language switch, and validation rules of the project-page
-kit (render.py). Standard library only.
+kit (render.py). An optional "flows" list uses the same schema as a project
+page: the same checks, the same --fd-* mapping, and flow.js plus flow.css
+only when that list is present. A hub without flows renders the same files
+as before. Standard library only.
 """
 
 from __future__ import annotations
@@ -56,6 +59,7 @@ def validate(hub: dict) -> list[str]:
                     problems.append(f"{slug}: missing {key}")
             if project.get("status") not in STATUS:
                 problems.append(f"{slug}: status must be one of {sorted(STATUS)}")
+    problems.extend(R.validate_flows(hub))
     return problems
 
 
@@ -123,7 +127,10 @@ def render_hub(hub: dict) -> str:
             return {k: v.replace("{count}", str(count)) for k, v in value.items()}
         return value.replace("{count}", str(count)) if isinstance(value, str) else value
 
-    nav = "".join(f'<a href="#{g["id"]}">{R.bi(g["nav"])}</a>' for g in groups[:4])
+    nav_links = [f'<a href="#{g["id"]}">{R.bi(g["nav"])}</a>' for g in groups[:4]]
+    if any(isinstance(item, dict) and not item.get("after") for item in (hub.get("flows") or [])):
+        nav_links.append(f'<a href="#how">{R.bi({"en": "How it works", "zh": "運作方式"})}</a>')
+    nav = "".join(nav_links)
 
     # hero visual: one row per group with its project count
     stack_cards = "".join(
@@ -180,6 +187,7 @@ def render_hub(hub: dict) -> str:
         )
 
     links = "".join(R.anchor(l) for l in hub.get("links", []))
+    parts = R.place_flows(parts, hub)
     ld = {
         "@context": "https://schema.org",
         "@type": "CollectionPage",
@@ -194,6 +202,9 @@ def render_hub(hub: dict) -> str:
         ],
     }
     body = "\n".join(parts)
+    flow_head = ""
+    if hub.get("flows"):
+        flow_head = '<link rel="stylesheet" href="flow.css">\n<script src="flow.js" defer></script>\n'
     return f"""<!doctype html>
 <!-- Generated from hub.json by kit/render_hub.py. Edit hub.json, then re-render. -->
 <html lang="en" data-lang="en" data-title-en="{R.attr(title_en)}" data-title-zh="{R.attr(title_zh)}" data-desc-en="{R.attr(desc_en)}" data-desc-zh="{R.attr(desc_zh)}">
@@ -217,7 +228,7 @@ def render_hub(hub: dict) -> str:
 <link rel="stylesheet" href="styles.css">
 <script src="lang.js"></script>
 <script src="app.js" defer></script>
-<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
+{flow_head}<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 </head>
 <body>
 <a class="skip-link" href="#main">{R.bi({"en": "Skip to content", "zh": "跳到主要內容"})}</a>
@@ -292,9 +303,14 @@ def main(argv: list[str]) -> int:
     pal = R.palette_of(hub)
     theme = ":root {\n" + "".join(f"  --{k.replace('accent2', 'accent-2')}: {v};\n" for k, v in pal.items()) + "}\n\n"
     css = theme + (KIT / "base.css").read_text(encoding="utf-8") + (KIT / "hub.css").read_text(encoding="utf-8")
+    if hub.get("flows"):
+        css += R.FLOW_MAP
     (site / "styles.css").write_text(css, encoding="utf-8")
     shutil.copyfile(KIT / "lang.js", site / "lang.js")
     shutil.copyfile(KIT / "app.js", site / "app.js")
+    if hub.get("flows"):
+        shutil.copyfile(KIT / "flow.js", site / "flow.js")
+        shutil.copyfile(KIT / "flow.css", site / "flow.css")
     (site / "index.html").write_text(page, encoding="utf-8")
     (site / "404.html").write_text(render_404(hub), encoding="utf-8")
     (site / "logo.svg").write_text(R.logo_svg(hub["mark"], pal, 48), encoding="utf-8")
