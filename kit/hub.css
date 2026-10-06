@@ -118,3 +118,6 @@
   .project-grid { grid-template-columns: 1fr; }
   .project-card { min-height: 0; padding: 22px; }
 }
+
+section:has(> figure.fd) .section-heading h2 { text-wrap: balance; }
+section:has(> figure.fd) .section-heading p { text-wrap: pretty; }

@@ -285,6 +285,7 @@
   font-size: 0.82rem;
   line-height: 1.45;
   color: var(--fd-faint, currentColor);
+  text-wrap: pretty;
 }
 
 .fd-link { display: none; }
@@ -321,6 +322,7 @@
   color: var(--fd-faint, currentColor);
   font-size: 0.84rem;
   line-height: 1.45;
+  text-wrap: pretty;
 }
 
 .fd.is-drawn .fd-ticks,
