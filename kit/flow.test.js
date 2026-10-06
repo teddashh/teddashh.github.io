@@ -167,3 +167,150 @@ test("the stylesheet fades a status line out before the next iteration", () => {
   assert.match(block, /2\.48s|2480ms/);
   assert.match(css, /animation:\s*fd-tick\s+2\.48s/);
 });
+
+function textNode(data) {
+  return { nodeType: 3, data: data };
+}
+
+function element(name, children) {
+  return { nodeType: 1, nodeName: name, childNodes: children || [] };
+}
+
+function isWideGlyph(token) {
+  return [...token].length === 1 && Math.abs(flow.advance(token, 10) - 10) < 0.01;
+}
+
+function lineBody(line) {
+  return flow.tokenise(line).filter((token) => !/^\s+$/u.test(token));
+}
+
+function isClosing(token) {
+  return NO_START.test(token);
+}
+
+function isLoneLine(line) {
+  const tokens = lineBody(line);
+  if (!tokens.length) return false;
+  if (tokens.length === 1 && !isWideGlyph(tokens[0])) return true;
+  let wideAt = -1;
+  let wides = 0;
+  for (let i = 0; i < tokens.length; i += 1) {
+    if (isWideGlyph(tokens[i]) && !isClosing(tokens[i])) { wides += 1; wideAt = i; }
+    else if (!isClosing(tokens[i])) return false;
+  }
+  return wides === 1 && wideAt === 0;
+}
+
+/* Pulling one more token would leave the line above with fewer than 2 words,
+   open the last line with a closing mark, or exceed the budget. */
+function pullBreaksLimit(prev, last, size, budget) {
+  const above = lineBody(prev);
+  if (!above.length) return true;
+  let take = 1;
+  if (isClosing(above[above.length - 1])) take = 2;
+  if (above.length < take || above.length - take < 2) return true;
+  const pulled = above.slice(above.length - take);
+  if (isClosing(pulled[0])) return true;
+  const right = lineBody(last)[0] || "";
+  const glue = isWideGlyph(pulled[pulled.length - 1]) || isWideGlyph(right) ? "" : " ";
+  const next = pulled.join("") + glue + last;
+  return flow.advance(next, size) > budget + 0.01;
+}
+
+test("textWithBreaks keeps a br and collapses other whitespace", () => {
+  const broken = {
+    childNodes: [
+      textNode("長時間跑的 agent 也要有心跳，"),
+      element("BR"),
+      textNode("\n  事情才會一直往前走。"),
+    ],
+  };
+  assert.equal(
+    flow.textWithBreaks(broken),
+    "長時間跑的 agent 也要有心跳，\n事情才會一直往前走。",
+  );
+  const spaces = { childNodes: [textNode("hello   \n\n  world   again")] };
+  assert.equal(flow.textWithBreaks(spaces), "hello world again");
+  const nested = {
+    childNodes: [
+      element("SPAN", [textNode("甲  乙"), element("BR"), textNode("  丙")]),
+    ],
+  };
+  assert.equal(flow.textWithBreaks(nested), "甲 乙\n丙");
+});
+
+test("a br is a hard line break inside the hub core budget", () => {
+  // mud-to-agents core is 231.636... wide; the note inset is 36.
+  const budget = 195.6363636363636;
+  const text = "長時間跑的 agent 也要有心跳，\n事情才會一直往前走。";
+  const lines = flow.wrap(text, 12.5, budget);
+  assert.equal(lines[0].endsWith("，"), true, lines.join(" | "));
+  assert.equal(lines[1].startsWith("事情"), true, lines.join(" | "));
+});
+
+test("a lone Chinese last line pulls the character above it", () => {
+  // Human-employee core is capped at 308, so the note budget is 272.
+  // At 12.5px, main leaves 「扣。」 on its own line.
+  const B = 272;
+  const text = "要動腦的才叫醒 AI，像是這個客戶該給多少折扣。";
+  const lines = flow.wrap(text, 12.5, B);
+  const last = lines[lines.length - 1];
+  assert.equal(isLoneLine(last), false, lines.join(" | "));
+  assert.equal(last.endsWith("折扣。"), true, lines.join(" | "));
+});
+
+test("a lone English last word pulls the word above it", () => {
+  // Same core note budget as B. Main leaves "gets." on its own line.
+  const B2 = 272;
+  const text = "Only the thinking wakes the AI, like deciding what discount this customer gets.";
+  const lines = flow.wrap(text, 12.5, B2);
+  const last = lines[lines.length - 1];
+  assert.equal(isLoneLine(last), false, lines.join(" | "));
+  assert.equal(last.includes("customer gets."), true, lines.join(" | "));
+  assert.equal(last.includes("customer gets."), true);
+  assert.equal((last.match(/customer gets\./) || [""])[0], "customer gets.");
+});
+
+test("wrapped lines stay in budget, keep marks, and pull a lone last line", () => {
+  const samples = [
+    "先完成這一步。再做下一步，然後收尾",
+    "計算（結果）不要把句號放在行首。真的。",
+    "hello world. Next sentence stays with its period",
+    "共享容量會在這裡換行，標點跟著上一行",
+    "長時間跑的 agent 也要有心跳，\n事情才會一直往前走。",
+    "要動腦的才叫醒 AI，像是這個客戶該給多少折扣。",
+    "Only the thinking wakes the AI, like deciding what discount this customer gets.",
+  ];
+  const size = 12.5;
+  for (let glyphs = 3; glyphs <= 30; glyphs += 1) {
+    const budget = glyphs * size;
+    for (const sample of samples) {
+      const lines = flow.wrap(sample, size, budget);
+      const parts = sample.split("\n").filter((part) => part !== "");
+      let cursor = 0;
+      for (const part of parts) {
+        const taken = [];
+        while (cursor < lines.length) {
+          taken.push(lines[cursor]);
+          cursor += 1;
+          if (taken.join("").replace(/\s+/g, "") === part.replace(/\s+/g, "")) break;
+        }
+        assert.equal(taken.join("").replace(/\s+/g, ""), part.replace(/\s+/g, ""), part + " @" + glyphs);
+        for (const line of taken) {
+          const tokens = lineBody(line);
+          const overlong = tokens.length === 1 && flow.advance(line, size) > budget;
+          if (!overlong) assert.ok(flow.advance(line, size) <= budget + 0.01, line + " @" + glyphs);
+          assert.ok(!NO_START.test(line), "starts with closing mark: " + line + " @" + glyphs);
+        }
+        if (taken.length >= 2 && isLoneLine(taken[taken.length - 1])) {
+          assert.equal(
+            pullBreaksLimit(taken[taken.length - 2], taken[taken.length - 1], size, budget),
+            true,
+            taken.join(" | ") + " @" + glyphs,
+          );
+        }
+      }
+      assert.equal(cursor, lines.length, sample + " @" + glyphs);
+    }
+  }
+});
