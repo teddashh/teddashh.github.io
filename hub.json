@@ -256,14 +256,15 @@
   ],
   "flows": [
     {
-      "id": "page-build",
+      "id": "mud-to-agents",
+      "after": "about",
       "heading": {
-        "en": "How a project page is made",
-        "zh": "專案頁怎麼做成"
+        "en": "From MUD wizard to agents",
+        "zh": "從 MUD 巫師到 agent"
       },
       "intro": {
-        "en": "Each repository keeps its own page.json. The kit turns that file into the static page GitHub Pages serves.",
-        "zh": "每個 repo 自己留一份 page.json。套件把這個檔做成 GitHub Pages 上的靜態頁。"
+        "en": "I learned to keep a text world running, and I build agents with that same habit.",
+        "zh": "我先學會讓一個文字世界持續運作，<br>現在用同樣的習慣做 agent。"
       },
       "spec": {
         "columns": [
@@ -274,6 +275,101 @@
             1
           ],
           [
+            2
+          ],
+          [
+            3
+          ]
+        ],
+        "core": 3
+      },
+      "steps": [
+        {
+          "title": {
+            "en": "Text MUD",
+            "zh": "文字 MUD"
+          },
+          "note": {
+            "en": "I got hooked on a text MUD as a kid and kept playing it into college.",
+            "zh": "我從小迷上一個文字 MUD，一路玩到大學。"
+          },
+          "tone": "neutral",
+          "icon": "terminal"
+        },
+        {
+          "title": {
+            "en": "Wizard in college",
+            "zh": "大學當巫師"
+          },
+          "note": {
+            "en": "Studying computer science at National Central University in Taiwan, I became a wizard, coded that world, and kept its server running.",
+            "zh": "在台灣讀中央大學資工時，我當上巫師，<br>寫那個世界，也顧著它的主機。"
+          },
+          "tone": "neutral",
+          "icon": "doc"
+        },
+        {
+          "title": {
+            "en": "Real systems",
+            "zh": "企業系統"
+          },
+          "note": {
+            "en": "I then spent nearly two decades in the United States running identity, endpoints, ERP, BI, CRM, and security programs inside real businesses.",
+            "zh": "之後我在美國將近二十年，<br>在真實企業裡負責身分管理、<br>端點、ERP、BI、CRM 與資安計畫。"
+          },
+          "tone": "info",
+          "icon": "gear"
+        },
+        {
+          "title": {
+            "en": "Same heartbeat",
+            "zh": "同樣心跳"
+          },
+          "note": {
+            "en": "Long running agents need that same heartbeat, or the work does not keep moving.",
+            "zh": "長期運作的 agent 也靠這個心跳，<br>事情才走得下去。"
+          },
+          "tone": "accent",
+          "icon": "bolt"
+        }
+      ],
+      "ticks": [
+        {
+          "en": "a text MUD, then wizard code",
+          "zh": "文字 MUD，然後當巫師寫程式"
+        },
+        {
+          "en": "then real business systems",
+          "zh": "之後是真實的企業系統"
+        },
+        {
+          "en": "agents keep that heartbeat",
+          "zh": "agent 也靠這個心跳"
+        }
+      ],
+      "caption": {
+        "en": "I got hooked on a text MUD as a kid and kept playing it into college. While studying computer science at National Central University in Taiwan, I switched from player to wizard, coded that world, and kept its server running. I then spent nearly two decades in the United States running identity, endpoints, ERP, BI, CRM, and security programs inside real businesses. I now build AI agent tooling with those same habits. heart_beat is the most basic concept in MUD. Every creature and character in that world has a heartbeat, and the world keeps moving because of it. Long running agents need that same heartbeat.",
+        "zh": "我小時候迷上一個文字 MUD，一路玩到大學。在台灣讀中央大學資工時，我從玩家轉成巫師，寫那個世界，也顧著它的主機。之後在美國將近二十年，在真實的企業裡負責身分管理、端點、ERP、BI、CRM 與資安計畫。現在我用同樣的習慣做 AI agent 工具。heart_beat 是 MUD 最基本的概念。那個世界裡的每個怪物和 NPC 都有心跳，世界才一直往前走。長期運作的 agent 也需要同樣的心跳。"
+      }
+    },
+    {
+      "id": "human-employee",
+      "after": "about",
+      "heading": {
+        "en": "Think like a human employee",
+        "zh": "想像一個人類員工"
+      },
+      "intro": {
+        "en": "I picture a person doing the job. I wake the AI only where that person would have to think.",
+        "zh": "我先想像一個人在做事。<br>只有他要動腦時，才叫醒 AI。"
+      },
+      "spec": {
+        "columns": [
+          [
+            0
+          ],
+          [
+            1,
             2
           ],
           [
@@ -285,173 +381,82 @@
       "steps": [
         {
           "title": {
-            "en": "Read the repo",
-            "zh": "讀專案內容"
+            "en": "One task",
+            "zh": "一件工作"
           },
           "note": {
-            "en": "The text has to match that repository's README and the code that runs today.",
-            "zh": "文字必須對得上該 repo 的 README，以及現在真正在跑的程式。"
+            "en": "One task starts the way a person opens the ERP to make a quote.",
+            "zh": "一件工作的起點，<br>就像員工打開 ERP 要建一張報價單。"
           },
           "tone": "neutral",
           "icon": "doc"
         },
         {
           "title": {
-            "en": "Write page.json",
-            "zh": "寫來源檔"
+            "en": "Through code",
+            "zh": "走程式"
           },
           "note": {
-            "en": "site/page.json holds both languages, the sections, and the verified date.",
-            "zh": "site/page.json 放兩種語言、各個段落，以及查核日期。"
+            "en": "Work that needs no thinking goes through code, including CRUD, search, and notifications.",
+            "zh": "不用動腦的事走程式，<br>包含 CRUD、搜尋和通知。"
           },
-          "tone": "neutral",
+          "tone": "info",
           "icon": "code"
         },
         {
           "title": {
-            "en": "Run render.py",
-            "zh": "跑產生器"
+            "en": "Wake the AI",
+            "zh": "叫醒 AI"
           },
           "note": {
-            "en": "The kit checks the file, then writes the static page into that repo's site/.",
-            "zh": "套件先檢查這個檔，再把靜態頁寫進該 repo 的 site/。"
+            "en": "Analysis, judgment, and writing wake the AI, such as what discount this customer should get.",
+            "zh": "會叫醒 AI 的是分析、判斷和寫作這類工作，<br>例如這個客戶該給多少折扣。"
           },
           "tone": "accent",
-          "icon": "gear"
+          "icon": "spark"
         },
         {
           "title": {
-            "en": "Publish the page",
-            "zh": "發佈成頁面"
+            "en": "One result",
+            "zh": "匯成結果"
           },
           "note": {
-            "en": "That repo's Pages workflow serves site/ at teddashh.github.io, under the repository name.",
-            "zh": "該 repo 的 Pages 流程把 site/ 發佈到 teddashh.github.io 的專案路徑。"
+            "en": "Maybe 8 of 10 steps finish in the database, and only 2 need to wake the AI.",
+            "zh": "十步裡可能八步在資料庫做完。<br>只有兩步要叫醒 AI。"
           },
-          "tone": "info",
-          "icon": "globe"
+          "tone": "neutral",
+          "icon": "check"
         }
       ],
       "ticks": [
         {
-          "en": "README and code come first",
-          "zh": "先對 README 和程式"
+          "en": "routine steps stay in code",
+          "zh": "例行步驟走程式"
         },
         {
-          "en": "page.json is the source",
-          "zh": "page.json 才是來源"
+          "en": "judgment is what wakes AI",
+          "zh": "判斷才要叫醒 AI"
         },
         {
-          "en": "render.py writes site/",
-          "zh": "render.py 寫出 site/"
+          "en": "maybe 8 of 10 stay in code",
+          "zh": "十步可能有八步走程式"
         }
       ],
       "caption": {
-        "en": "A project page starts from that repository's README and from what its code does today. Those facts are written into site/page.json, in English and Traditional Chinese. kit/render.py checks the file and writes the static page into site/. The repository's own Pages workflow then publishes site/ at teddashh.github.io, followed by the repository name. This repository hosts the directory and the kit, not the other projects' pages.",
-        "zh": "專案頁的內容來自該 repo 的 README，以及它的程式現在真正會做的事。這些事實寫進 site/page.json，英文和繁體中文都有。kit/render.py 檢查這個檔，再把靜態頁寫進 site/。該 repo 自己的 Pages 流程接著把 site/ 發佈到 teddashh.github.io 的專案路徑。這個 repo 放的是目錄和套件，不是其他專案的頁面。"
+        "en": "A human employee does not think hard every time they open the ERP to create a quote. They click a few buttons, and only need to think when judging something like what discount this customer should get. Agents are the same. Work that needs no thinking goes through code, including CRUD, search, and notifications. Analysis, judgment, and writing wake the AI. In a 10 step process, maybe 8 steps finish in the database, and only 2 need to wake the AI. For me, agent design comes down to two questions: if this were a company, how would it manage its people? If this were a person, how would they do the job? Then I write the answers as code.",
+        "zh": "人類員工不會每次打開 ERP 建報價單都辛苦想一遍。他點幾個按鈕就好，只有在判斷這個客戶該給多少折扣時才需要動腦。Agent 也一樣。不用動腦的事走程式，包含 CRUD、搜尋和通知。分析、判斷和寫作才叫醒 AI。一個十步的流程裡，可能有八步在資料庫做完，只有兩步要叫醒 AI。對我來說，agent 的設計最後就是在回答兩個問題：如果這是一間公司，它會怎麼管理員工？如果這是一個人，他會怎麼做這件事？然後把答案寫成 code。"
       }
     },
     {
-      "id": "one-list",
+      "id": "done-first",
+      "after": "about",
       "heading": {
-        "en": "One list, three homes",
-        "zh": "一份清單三處"
+        "en": "Done before perfect",
+        "zh": "完成勝過完美"
       },
       "intro": {
-        "en": "hub.json is the only project list. The directory, the GitHub profile README, and the projects page on ted-h.com are built from it.",
-        "zh": "hub.json 是唯一的專案清單。這份目錄、GitHub 個人頁 README，以及 ted-h.com 的專案頁，都從它做出來。"
-      },
-      "spec": {
-        "columns": [
-          [
-            0
-          ],
-          [
-            1,
-            2,
-            3
-          ]
-        ],
-        "core": 0
-      },
-      "steps": [
-        {
-          "title": {
-            "en": "hub.json",
-            "zh": "hub.json"
-          },
-          "note": {
-            "en": "One file lists every project, with its group, one-line description, stack, and status.",
-            "zh": "一個檔列出每個專案的分組、一句話、技術堆疊和狀態。"
-          },
-          "tone": "accent",
-          "icon": "hub"
-        },
-        {
-          "title": {
-            "en": "This directory",
-            "zh": "這份目錄"
-          },
-          "note": {
-            "en": "render_hub.py reads the file and writes the directory page you are on.",
-            "zh": "render_hub.py 讀這個檔，寫出你正在看的這份目錄。"
-          },
-          "tone": "neutral",
-          "icon": "window"
-        },
-        {
-          "title": {
-            "en": "Profile README",
-            "zh": "個人頁清單"
-          },
-          "note": {
-            "en": "render_profile.py fills the project block of the GitHub profile README, in English and Chinese.",
-            "zh": "render_profile.py 填上 GitHub 個人頁 README 的專案區塊，中英文都有。"
-          },
-          "tone": "neutral",
-          "icon": "doc"
-        },
-        {
-          "title": {
-            "en": "ted-h.com",
-            "zh": "官網專案"
-          },
-          "note": {
-            "en": "The projects page at ted-h.com/projects shows this same list.",
-            "zh": "ted-h.com/projects 的專案頁顯示的是同一份清單。"
-          },
-          "tone": "info",
-          "icon": "globe"
-        }
-      ],
-      "ticks": [
-        {
-          "en": "hub.json is the only list",
-          "zh": "hub.json 是唯一清單"
-        },
-        {
-          "en": "the kit writes two of the pages",
-          "zh": "套件寫出其中兩個頁面"
-        },
-        {
-          "en": "ted-h.com/projects matches it",
-          "zh": "ted-h.com 顯示同一份"
-        }
-      ],
-      "caption": {
-        "en": "hub.json is the single list of projects: group, one-line description, stack, and status. kit/render_hub.py reads it and writes this directory. kit/render_profile.py reads it and fills the project block of the GitHub profile README, in English and Traditional Chinese, plus a projects directory beside that README. The projects page at ted-h.com/projects is built from the same list, with the same groups, lines, stacks, and status labels.",
-        "zh": "hub.json 是唯一的專案清單：分組、一句話、技術堆疊和狀態。kit/render_hub.py 讀它，寫出這份目錄。kit/render_profile.py 讀它，填上 GitHub 個人頁 README 的專案區塊，英文和繁體中文都有，並在旁邊產生 projects 目錄。ted-h.com/projects 的專案頁也是從同一份清單做出來的，分組、介紹、技術堆疊和狀態標籤都相同。"
-      }
-    },
-    {
-      "id": "which-language",
-      "heading": {
-        "en": "Which language you see",
-        "zh": "你會看到哪種語言"
-      },
-      "intro": {
-        "en": "lang.js picks the language before the page paints, in the order drawn here. After that, the EN and 繁中 buttons swap the text already in the page, update the title and description, save the choice, and rewrite the link.",
-        "zh": "lang.js 在畫面畫出來之前選定語言，順序如圖。之後按 EN 或繁中，會就地換掉頁面上的文字、更新標題和說明、記住選擇，並改寫網址。"
+        "en": "One main project goes to its first milestone. New ideas wait, and optimization comes after the work is done.",
+        "zh": "一個主專案先走到第一個里程碑。<br>新想法在旁邊等，做完才優化。"
       },
       "spec": {
         "columns": [
@@ -463,95 +468,80 @@
           ],
           [
             2
-          ],
-          [
-            3
-          ],
-          [
-            4
           ]
+        ],
+        "sinks": [
+          3
         ],
         "core": 0
       },
       "steps": [
         {
           "title": {
-            "en": "Link parameter",
-            "zh": "網址參數"
+            "en": "One project",
+            "zh": "一個主專案"
           },
           "note": {
-            "en": "A ?lang= value starting with zh or en wins, and zh-TW selects Chinese.",
-            "zh": "以 zh 或 en 開頭的 ?lang= 優先，zh-TW 會選中文。"
+            "en": "I keep one main project at a time and accept the boring execution.",
+            "zh": "一次只做一個主專案，也接受無聊的執行期。"
           },
           "tone": "accent",
-          "icon": "globe"
-        },
-        {
-          "title": {
-            "en": "Saved choice",
-            "zh": "記住的選擇"
-          },
-          "note": {
-            "en": "Otherwise the page reads localStorage key tedh-project-lang.",
-            "zh": "否則讀這個瀏覽器 localStorage 的 tedh-project-lang。"
-          },
-          "tone": "neutral",
-          "icon": "database"
-        },
-        {
-          "title": {
-            "en": "Browser list",
-            "zh": "瀏覽器清單"
-          },
-          "note": {
-            "en": "Otherwise any zh entry in the browser's language list selects Chinese.",
-            "zh": "再不然，瀏覽器語言清單裡有 zh 就選中文。"
-          },
-          "tone": "info",
-          "icon": "window"
-        },
-        {
-          "title": {
-            "en": "English",
-            "zh": "否則英文"
-          },
-          "note": {
-            "en": "When that list has no zh entry, the page stays in English.",
-            "zh": "清單裡沒有 zh 時，頁面就用英文。"
-          },
-          "tone": "neutral",
           "icon": "doc"
         },
         {
           "title": {
-            "en": "EN or 繁中",
-            "zh": "語言按鈕"
+            "en": "First milestone",
+            "zh": "第一里程碑"
           },
           "note": {
-            "en": "Those buttons swap the text already in the HTML, update the title and description, save the choice, and rewrite the link.",
-            "zh": "按 EN 或繁中會就地換字、更新標題和說明、記住選擇，並改寫網址。"
+            "en": "No new idea gets built until the main project reaches its first milestone.",
+            "zh": "主專案達到第一個里程碑之前，不開新坑。"
+          },
+          "tone": "neutral",
+          "icon": "check"
+        },
+        {
+          "title": {
+            "en": "Then optimize",
+            "zh": "再來優化"
+          },
+          "note": {
+            "en": "Only finished work earns optimization.",
+            "zh": "完成，才有資格優化。"
           },
           "tone": "info",
-          "icon": "route"
+          "icon": "gear"
+        },
+        {
+          "title": {
+            "en": "Parking Lot",
+            "zh": "想法暫存"
+          },
+          "note": {
+            "en": "New ideas get written down here and wait.",
+            "zh": "新想法先寫進 Parking Lot 等著。"
+          },
+          "tone": "neutral",
+          "icon": "ledger"
         }
       ],
       "ticks": [
         {
-          "en": "a zh or en ?lang= value wins",
-          "zh": "網址參數 zh 或 en 優先"
+          "en": "one main project at a time",
+          "zh": "一次一個主專案"
         },
         {
-          "en": "then the saved key, then the browser",
-          "zh": "再看記住的選擇與瀏覽器"
+          "en": "new ideas wait in the lot",
+          "zh": "新想法先停著"
         },
         {
-          "en": "EN and 繁中 rewrite the link",
-          "zh": "EN 與繁中會改寫網址"
+          "en": "optimize only after it is done",
+          "zh": "做完才有資格優化"
         }
       ],
       "caption": {
-        "en": "This directory loads the same lang.js and app.js as a project page. lang.js runs before paint. A ?lang= value that starts with zh or en wins, so the profile README and the zh-Hant alternate link use ?lang=zh-TW to select Chinese. Otherwise it reads localStorage key tedh-project-lang. Otherwise it scans the browser's language list and selects Chinese if any entry starts with zh, or English if none does. Both languages are already in the HTML, and the page shows one of them. The buttons are labeled EN and 繁中. Pressing one shows that language, sets the document title and the description, stores zh or en under tedh-project-lang, and rewrites the link: ?lang=zh-TW for Chinese, and no lang parameter for English. Opening the page also stores the choice it already made, and does not change the link until a button is pressed.",
-        "zh": "這份目錄載入的 lang.js 和 app.js 與專案頁相同。lang.js 在畫面畫出來之前執行。以 zh 或 en 開頭的 ?lang= 優先，所以個人頁 README 和 zh-Hant 的替代連結用 ?lang=zh-TW 來選中文。否則讀 localStorage 的 tedh-project-lang。再不然就看瀏覽器的語言清單，任一項以 zh 開頭就選中文，都沒有就用英文。兩種語言都已經在同一份 HTML 裡，頁面只顯示其中一種。按鈕上的字是 EN 和繁中。按下之後會切換顯示的語言、設定標題和說明、把 zh 或 en 存進 tedh-project-lang，並改寫網址：中文加上 ?lang=zh-TW，英文則拿掉 lang 參數。打開頁面時也會把已經選定的語言存起來，但在按下按鈕之前不會改網址。"
+        "en": "I keep one main project at a time. Until it reaches its first milestone, a new idea only goes into the Parking Lot: I do not build it, research it, or optimize it. I accept the boring execution. Done comes before perfect, and only finished work earns optimization. Each project page here also says what does not work yet.",
+        "zh": "我一次只做一個主專案。在它達到第一個里程碑之前，新想法只寫進 Parking Lot，不實作、不研究、不優化。我接受無聊的執行期。完成勝過完美。完成，才有資格優化。這裡的每個專案頁也都寫明還做不到的地方。"
       }
     }
   ]
