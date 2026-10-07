@@ -140,6 +140,13 @@ works" / 「運作方式」, placed after the first content block, and the nav g
 a link to it. A page that already has the short `flow` section must set
 `after` on each item, because that section already uses `id="how"`.
 
+On the hub, `group` names a project group instead (`ai-tools`, `agents`,
+`security`, `small`). The diagram then opens that group: it is drawn in the
+group's band, above the group heading, with a short rule between the diagram
+and the projects, so a diagram and the projects it introduces share one
+background. A flow sets `after` or `group`, not both. Project pages have no
+groups, so `group` is rejected there.
+
 `kit/flow-demo.html` shows a straight chain, fan-out lanes, sinks, a trust
 boundary, a capacity bar, a loop, and a fan-in, in the lime, violet, ember,
 and graphite palettes, plus one dark sample. Open it from the `kit/`

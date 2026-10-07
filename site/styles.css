@@ -1656,3 +1656,23 @@ section:has(> figure.fd) .section-heading p { text-wrap: pretty; }
   --fd-font: inherit;
   --fd-mono: var(--mono);
 }
+
+/* A diagram that opens a project group sits in the group's band, above its
+   heading, with a short rule between the diagram and the projects. */
+.group-flow { padding-bottom: 0; }
+.group-flow + .group { padding-top: 0; }
+
+.group-rule {
+  width: 56px;
+  height: 0;
+  margin: 76px 0;
+  border: 0;
+  border-top: 2px solid var(--kicker);
+}
+
+.group-flow .section-heading h2 { text-wrap: balance; }
+.group-flow .section-heading p { text-wrap: pretty; }
+
+@media (max-width: 620px) {
+  .group-rule { margin: 56px 0; }
+}

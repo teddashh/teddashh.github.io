@@ -2,7 +2,7 @@
   "name": "Ted Huang",
   "mark": "TH",
   "palette": "lime",
-  "verified": "2026-10-06",
+  "verified": "2026-10-07",
   "title": {"en": "Open-source projects", "zh": "開源專案"},
   "description": {
     "en": "{count} open-source projects by Ted Huang: multi-AI tools, agent infrastructure, security, and a few small experiments. Each one has its own bilingual project page.",
@@ -12,7 +12,7 @@
     "eyebrow": {"en": "Ted Huang · Open source", "zh": "Ted Huang · 開源作品"},
     "headline": {"en": "Working software, <em>built in the open.</em>", "zh": "能用的軟體，<em>公開打造。</em>"},
     "lede": {
-      "en": "{count} public projects from an engineer with twenty years in IT and security who now builds AI agent tooling. Every project has its own page in English and Traditional Chinese, including what does not work yet.",
+      "en": "{count} public projects from an engineer with twenty years in IT and security who now builds AI agent tooling. Each one has its own page in English and Traditional Chinese, and every page says what doesn't work yet.",
       "zh": "{count} 個公開專案，來自一個做了二十年 IT 與資安、現在專心打造 AI agent 工具的工程師。每個專案都有自己的中英雙語介紹頁，也寫明還做不到的地方。"
     },
     "primary": {"href": "#ai-tools", "label": {"en": "Browse projects", "zh": "瀏覽專案"}},
@@ -257,13 +257,13 @@
   "flows": [
     {
       "id": "mud-to-agents",
-      "after": "about",
+      "group": "ai-tools",
       "heading": {
-        "en": "From MUD wizard to agents",
+        "en": "From MUD wizard to AI agents",
         "zh": "從 MUD 巫師到 agent"
       },
       "intro": {
-        "en": "The code keeps changing, but the ideas stay. The heartbeat I learned in a MUD is what my agents run on now.",
+        "en": "Code changes. The ideas don't. The heartbeat I learned about in a MUD is what keeps my agents running today.",
         "zh": "Code 怎麼變，觀念都不會變。<br>我在 MUD 學到的心跳，現在用在 agent 上。"
       },
       "spec": {
@@ -290,7 +290,7 @@
             "zh": "文字 MUD"
           },
           "note": {
-            "en": "I got hooked on a text MUD as a kid and kept playing it into college.",
+            "en": "I got hooked on a text MUD as a kid and was still playing it in college.",
             "zh": "我從小迷上一個文字 MUD，一路玩到大學。"
           },
           "tone": "neutral",
@@ -298,11 +298,11 @@
         },
         {
           "title": {
-            "en": "Wizard in college",
+            "en": "Wizard and sysadmin",
             "zh": "大學當巫師"
           },
           "note": {
-            "en": "While studying computer science at National Central University in Taiwan, I became a wizard, wrote code for that world, and kept its server running.",
+            "en": "While I studied computer science at National Central University in Taiwan, I went from player to wizard, coding for that world and keeping its server running.",
             "zh": "在中央大學念資工時，我從玩家變成巫師，<br>幫那個世界寫程式，也顧它的主機。"
           },
           "tone": "neutral",
@@ -310,11 +310,11 @@
         },
         {
           "title": {
-            "en": "Business systems",
+            "en": "Corporate IT",
             "zh": "企業系統"
           },
           "note": {
-            "en": "Then nearly two decades in the United States, working on identity, endpoints, ERP, BI, CRM, and security inside companies.",
+            "en": "Then I spent nearly twenty years at US companies, working on identity, endpoints, ERP, BI, CRM, and security.",
             "zh": "之後在美國將近二十年，<br>在企業裡做身分管理、端點、<br>ERP、BI、CRM 和資安。"
           },
           "tone": "info",
@@ -322,11 +322,11 @@
         },
         {
           "title": {
-            "en": "Same heartbeat",
+            "en": "Agents with a heartbeat",
             "zh": "同樣的心跳"
           },
           "note": {
-            "en": "Agents that run for a long time need a heartbeat too, or nothing moves forward.",
+            "en": "Long-running agents need a heartbeat too, a steady tick that keeps the work moving.",
             "zh": "長時間跑的 agent 也要有心跳，<br>事情才會一直往前走。"
           },
           "tone": "accent",
@@ -335,11 +335,11 @@
       ],
       "ticks": [
         {
-          "en": "played a MUD, then ran it as a wizard",
+          "en": "from player to wizard",
           "zh": "玩 MUD，後來當巫師"
         },
         {
-          "en": "then business systems",
+          "en": "then corporate IT",
           "zh": "之後做企業系統"
         },
         {
@@ -348,19 +348,19 @@
         }
       ],
       "caption": {
-        "en": "I got hooked on a text MUD as a kid and kept playing it into college. While studying computer science at National Central University in Taiwan, I went from player to wizard, wrote code for that world, and kept its server running. Then I spent nearly two decades in the United States working on identity, endpoints, ERP, BI, CRM, and security inside companies. Now I build AI agent tooling with the same habits. heart_beat is the most basic idea in a MUD: every mob and every NPC has a heartbeat, and the world moves because of it. If the heartbeat stops, poison never kicks in and no one regains health. Agents that run for a long time need the same heartbeat.",
+        "en": "I build AI agents with habits I picked up in the MUD and in twenty years of corporate IT. A MUD runs on heart_beat: every mob and NPC has one, and if it stops, poison never kicks in and nobody heals. Long-running agents need the same heartbeat.",
         "zh": "我小時候迷上一個文字 MUD，一路玩到大學。在中央大學念資工時，我從玩家變成巫師，幫那個世界寫程式，也顧它的主機。之後在美國將近二十年，在企業裡做身分管理、端點、ERP、BI、CRM 和資安。現在我用同樣的習慣做 AI agent 工具。heart_beat 是 MUD 最基本的概念，每一個 mob、每一個 NPC 都有心跳，世界靠心跳在流動。心跳沒在跑，毒不會發作，也不會回血。<br>長時間跑的 agent，也需要同樣的心跳。"
       }
     },
     {
       "id": "human-employee",
-      "after": "about",
+      "group": "agents",
       "heading": {
-        "en": "Think like a human employee",
+        "en": "Picture a human\u00a0employee",
         "zh": "想像一個人類員工"
       },
       "intro": {
-        "en": "I picture a person doing the job, and wake the AI only where that person would have to think.",
+        "en": "I start with how a real employee would do the job, and only wake the AI where that person would stop and think.",
         "zh": "先想一個真人員工會怎麼做，<br>只有他得動腦的地方才叫醒 AI。"
       },
       "spec": {
@@ -385,7 +385,7 @@
             "zh": "打開 ERP"
           },
           "note": {
-            "en": "An employee opens the ERP to make a quote.",
+            "en": "An employee opens the ERP to write up a quote.",
             "zh": "員工打開 ERP，要開一張報價單。"
           },
           "tone": "neutral",
@@ -393,11 +393,11 @@
         },
         {
           "title": {
-            "en": "Through code",
+            "en": "Plain code",
             "zh": "走 code"
           },
           "note": {
-            "en": "Work that needs no thinking goes through code: CRUD, search, notifications.",
+            "en": "Anything that takes no thinking runs as code: CRUD, search, notifications.",
             "zh": "不用動腦的事走 code，<br>像 CRUD、搜尋、通知。"
           },
           "tone": "info",
@@ -409,7 +409,7 @@
             "zh": "叫醒 AI"
           },
           "note": {
-            "en": "Only the thinking wakes the AI, like deciding what discount this customer gets.",
+            "en": "The AI only wakes up for a judgment call, like how big a discount this customer gets.",
             "zh": "要動腦的才叫醒 AI，<br>像是這個客戶該給多少折扣。"
           },
           "tone": "accent",
@@ -417,11 +417,11 @@
         },
         {
           "title": {
-            "en": "Done in the database",
+            "en": "Finished in the database",
             "zh": "資料庫做完"
           },
           "note": {
-            "en": "In a process of 10 steps, maybe 8 finish in the database and only 2 wake the AI.",
+            "en": "In a 10-step process, maybe 8 steps finish there and only 2 wake the AI.",
             "zh": "10 步的流程，可能 8 步在資料庫做完，<br>只有 2 步要叫醒 AI。"
           },
           "tone": "neutral",
@@ -430,32 +430,32 @@
       ],
       "ticks": [
         {
-          "en": "routine steps stay in code",
+          "en": "routine steps run as code",
           "zh": "例行步驟走 code"
         },
         {
-          "en": "only judgment wakes the AI",
+          "en": "judgment calls wake the AI",
           "zh": "要判斷才叫醒 AI"
         },
         {
-          "en": "maybe 8 of 10 stay in code",
+          "en": "maybe 8 of 10 steps are just code",
           "zh": "10 步可能 8 步走 code"
         }
       ],
       "caption": {
-        "en": "Picture a human employee. They don't think hard every time they open the ERP to make a quote. They click a few buttons and only need to think when deciding something like what discount this customer gets. Agents work the same way. Thinking goes to the LLM: analysis, judgment, writing. Everything else goes through code: CRUD, search, notifications. In a process of 10 steps, maybe 8 finish in the database and only 2 need to wake the AI. Agent design comes down to two questions. If this were a company, how would it manage its people? If this were a person, how would they do the job? Then I write the answers as code.",
+        "en": "Agents should work like that employee: analysis, judgment, and writing go to the model, and everything else is plain code. Designing one comes down to two questions: if this were a company, how would it manage its people, and if it were a person, how would they do the job? Then I turn the answers into code.",
         "zh": "想像一個人類員工。他不會每次打開 ERP 都要想怎麼建報價單，點幾個按鈕就好了，只有在判斷這個客戶該給多少折扣的時候，才需要動腦。Agent 也一樣：動腦的事給 LLM，像分析、判斷、寫作；不動腦的事走 code，像 CRUD、搜尋、通知。一個 10 步的流程，可能 8 步在資料庫完成，只有 2 步需要叫醒 AI。AI Agent 的設計，最終就是在回答兩個問題：<br>如果這是一間公司，它會怎麼管理員工？如果這是一個人，他會怎麼做這件事？然後把答案寫成 code。"
       }
     },
     {
       "id": "done-first",
-      "after": "about",
+      "group": "security",
       "heading": {
-        "en": "Done before perfect",
+        "en": "Done is better than perfect",
         "zh": "完成勝過完美"
       },
       "intro": {
-        "en": "The main project reaches its first milestone first. New ideas wait their turn, and optimizing comes after it's done.",
+        "en": "The main project gets to its first milestone before anything else. New ideas wait their turn, and optimizing comes after it's done.",
         "zh": "主專案先做到第一個里程碑，<br>新想法先排隊，做完再來優化。"
       },
       "spec": {
@@ -468,21 +468,33 @@
           ],
           [
             2
+          ],
+          [
+            3
           ]
         ],
-        "sinks": [
-          3
-        ],
-        "core": 0
+        "core": 1
       },
       "steps": [
         {
           "title": {
-            "en": "One project",
+            "en": "Parking Lot",
+            "zh": "想法停車場"
+          },
+          "note": {
+            "en": "New ideas get written down here. No building, no research, no optimizing.",
+            "zh": "新想法先寫進 Parking Lot，<br>不做、不研究、不優化。"
+          },
+          "tone": "neutral",
+          "icon": "ledger"
+        },
+        {
+          "title": {
+            "en": "One main project",
             "zh": "一個主專案"
           },
           "note": {
-            "en": "One main project at a time, boring stretches included.",
+            "en": "Only one at a time, and I stay with it through the boring parts.",
             "zh": "一次只做一個，<br>執行期的無聊也接受。"
           },
           "tone": "accent",
@@ -494,7 +506,7 @@
             "zh": "第一個里程碑"
           },
           "note": {
-            "en": "Nothing new gets started before it gets there.",
+            "en": "No new projects until it gets there.",
             "zh": "做到之前，不開新坑。"
           },
           "tone": "neutral",
@@ -506,23 +518,11 @@
             "zh": "再來優化"
           },
           "note": {
-            "en": "Only finished work earns optimization.",
+            "en": "Only finished work gets optimized.",
             "zh": "完成，才有資格優化。"
           },
           "tone": "info",
           "icon": "gear"
-        },
-        {
-          "title": {
-            "en": "Parking Lot",
-            "zh": "想法停車場"
-          },
-          "note": {
-            "en": "New ideas get written down here: not built, not researched, not optimized.",
-            "zh": "新想法先寫進 Parking Lot，<br>不做、不研究、不優化。"
-          },
-          "tone": "neutral",
-          "icon": "ledger"
         }
       ],
       "ticks": [
@@ -531,16 +531,16 @@
           "zh": "一次一個主專案"
         },
         {
-          "en": "new ideas wait in the lot",
+          "en": "new ideas stay parked",
           "zh": "新想法先停著"
         },
         {
-          "en": "optimize only once it's done",
+          "en": "optimize only what's finished",
           "zh": "做完才有資格優化"
         }
       ],
       "caption": {
-        "en": "I keep one main project at a time. Until it reaches its first milestone, new ideas only go into the Parking Lot: I don't build them, research them, or optimize them. I accept that execution gets boring. Done matters more than perfect, and only finished work earns optimization. Each project page here also says what doesn't work yet.",
+        "en": "Until the main project reaches its first milestone, new ideas go into the Parking Lot and stay there. I accept the boring part of execution, and I only optimize what's finished. Every project page here also says what doesn't work yet.",
         "zh": "我一次只做一個主專案。在它做到第一個里程碑之前，新想法只能寫進 Parking Lot，不實作、不研究、不優化。執行期的無聊，我接受。<br>完成比完美重要，做完了，才有資格優化。<br>這裡每個專案頁也都寫了還做不到的地方。"
       }
     }

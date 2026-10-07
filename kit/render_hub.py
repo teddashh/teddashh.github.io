@@ -112,6 +112,17 @@ def render_card(project: dict) -> str:
     )
 
 
+def render_group_flow(flow: dict) -> str:
+    """A diagram that opens a project group: drawn in the group's band, above its heading,
+    with a short rule between the diagram and the projects."""
+    return (
+        f'<div class="section group-flow" id="{html.escape(flow["id"])}">'
+        f'{R.heading({"title": flow["heading"], "intro": flow["intro"]})}'
+        f'{R.render_flow_figure(flow, "en")}{R.render_flow_figure(flow, "zh")}'
+        f'<hr class="group-rule"></div>'
+    )
+
+
 def render_hub(hub: dict) -> str:
     groups = hub["groups"]
     count = sum(len(g["projects"]) for g in groups)
@@ -128,7 +139,8 @@ def render_hub(hub: dict) -> str:
         return value.replace("{count}", str(count)) if isinstance(value, str) else value
 
     nav_links = [f'<a href="#{g["id"]}">{R.bi(g["nav"])}</a>' for g in groups[:4]]
-    if any(isinstance(item, dict) and not item.get("after") for item in (hub.get("flows") or [])):
+    if any(isinstance(item, dict) and not item.get("after") and not item.get("group")
+           for item in (hub.get("flows") or [])):
         nav_links.append(f'<a href="#how">{R.bi({"en": "How it works", "zh": "運作方式"})}</a>')
     nav = "".join(nav_links)
 
@@ -169,9 +181,11 @@ def render_hub(hub: dict) -> str:
         )
         parts.append(f'<div class="stats n{len(stats)}">{cells}</div>')
 
+    flows = [flow for flow in hub.get("flows") or [] if isinstance(flow, dict)]
     for index, group in enumerate(groups):
         cards = "".join(render_card(p) for p in group["projects"])
-        inner = (f'<div class="section group" id="{group["id"]}">{R.heading(group)}'
+        lead = "".join(render_group_flow(flow) for flow in flows if flow.get("group") == group["id"])
+        inner = (f'{lead}<div class="section group" id="{group["id"]}">{R.heading(group)}'
                  f'<div class="project-grid">{cards}</div></div>')
         parts.append(f'<section class="tinted">{inner}</section>' if index % 2 else f"<section>{inner}</section>")
 
@@ -281,6 +295,29 @@ def render_404(hub: dict) -> str:
 
 PAGES_WORKFLOW = R.PAGES_WORKFLOW
 
+# Appended to styles.css only when a flow opens a project group.
+GROUP_FLOW_CSS = """
+/* A diagram that opens a project group sits in the group's band, above its
+   heading, with a short rule between the diagram and the projects. */
+.group-flow { padding-bottom: 0; }
+.group-flow + .group { padding-top: 0; }
+
+.group-rule {
+  width: 56px;
+  height: 0;
+  margin: 76px 0;
+  border: 0;
+  border-top: 2px solid var(--kicker);
+}
+
+.group-flow .section-heading h2 { text-wrap: balance; }
+.group-flow .section-heading p { text-wrap: pretty; }
+
+@media (max-width: 620px) {
+  .group-rule { margin: 56px 0; }
+}
+"""
+
 
 def main(argv: list[str]) -> int:
     root = Path(argv[1]).resolve() if len(argv) > 1 and not argv[1].startswith("--") else KIT.parent
@@ -305,6 +342,8 @@ def main(argv: list[str]) -> int:
     css = theme + (KIT / "base.css").read_text(encoding="utf-8") + (KIT / "hub.css").read_text(encoding="utf-8")
     if hub.get("flows"):
         css += R.flow_map(pal)
+    if any(isinstance(flow, dict) and flow.get("group") for flow in hub.get("flows") or []):
+        css += GROUP_FLOW_CSS
     (site / "styles.css").write_text(css, encoding="utf-8")
     shutil.copyfile(KIT / "lang.js", site / "lang.js")
     shutil.copyfile(KIT / "app.js", site / "app.js")

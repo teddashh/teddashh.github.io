@@ -240,7 +240,8 @@ def validate_flows(page: dict) -> list[str]:
     problems: list[str] = []
     seen: set[str] = set()
     reserved = {"top", "how", "features", "screens", "architecture", "decisions", "start", "status", "main"}
-    if page.get("flow") and any(isinstance(item, dict) and not item.get("after") for item in flows):
+    if page.get("flow") and any(isinstance(item, dict) and not item.get("after") and not item.get("group")
+                                for item in flows):
         problems.append("$.flows: this page already has a how section; set after on each flow")
     for i, flow in enumerate(flows):
         path = f"$.flows[{i}]"
@@ -352,6 +353,13 @@ def validate_flows(page: dict) -> list[str]:
             after = flow.get("after")
             if not isinstance(after, str) or not _section_exists(page, after):
                 problems.append(f"{path}.after: unknown section id {after!r}")
+        if flow.get("group") is not None:
+            group = flow.get("group")
+            group_ids = {g.get("id") for g in page.get("groups") or [] if isinstance(g, dict)}
+            if not isinstance(group, str) or group not in group_ids:
+                problems.append(f"{path}.group: unknown project group {group!r} (hub only)")
+            elif flow.get("after") is not None:
+                problems.append(f"{path}: set after or group, not both")
     return problems
 
 
@@ -638,8 +646,9 @@ def render_default_flow_section(flows: list) -> str:
 
 
 def place_flows(parts: list, page: dict) -> list:
-    """Insert flow sections. Pages without flows get the same part list back."""
-    flows = page.get("flows") or []
+    """Insert flow sections. Pages without flows get the same part list back.
+    Flows with a group are drawn by the hub inside that group's band."""
+    flows = [flow for flow in page.get("flows") or [] if not flow.get("group")]
     if not flows:
         return parts
 
@@ -702,7 +711,8 @@ def render_page(page: dict, assets: dict) -> str:
         nav_items.append(f'<a href="#{SECTION_IDS[key]}">{bi(label)}</a>')
     nav_items = nav_items[:4]
     if not page.get("flow") and any(
-        isinstance(item, dict) and not item.get("after") for item in (page.get("flows") or [])
+        isinstance(item, dict) and not item.get("after") and not item.get("group")
+        for item in (page.get("flows") or [])
     ):
         nav_items.insert(0, f'<a href="#how">{bi({"en": "How it works", "zh": "運作方式"})}</a>')
         nav_items = nav_items[:4]
