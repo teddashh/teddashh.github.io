@@ -304,7 +304,7 @@ def main(argv: list[str]) -> int:
     theme = ":root {\n" + "".join(f"  --{k.replace('accent2', 'accent-2')}: {v};\n" for k, v in pal.items()) + "}\n\n"
     css = theme + (KIT / "base.css").read_text(encoding="utf-8") + (KIT / "hub.css").read_text(encoding="utf-8")
     if hub.get("flows"):
-        css += R.FLOW_MAP
+        css += R.flow_map(pal)
     (site / "styles.css").write_text(css, encoding="utf-8")
     shutil.copyfile(KIT / "lang.js", site / "lang.js")
     shutil.copyfile(KIT / "app.js", site / "app.js")

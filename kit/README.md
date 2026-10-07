@@ -178,7 +178,10 @@ pulse, and the selected lane. `--fd-accent-ink` is optional and falls back
 to `--fd-accent`; the kit mixes signal 60% with ink so small accent text
 clears 4.5:1 on the surface. `--fd-warn` is the boundary and the warn tone
 (`--kicker`). `--fd-info` is the info tone (accent-2 mixed 40% with ink, so
-it also clears 4.5:1). `--fd-font` and `--fd-mono` are optional.
+it also clears 4.5:1). `--fd-font` and `--fd-mono` are optional. The kit
+writes these as plain colors computed from the palette. A host should map
+--fd-edge and the tone colors to plain colors too, because WebKit 26.5
+crashes on a color-mix() whose two colors are both color-mix() values.
 
 ### Markup the engine reads
 

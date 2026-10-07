@@ -52,23 +52,47 @@ FLOW_ICONS = {
     "bolt", "globe", "eye", "key", "upload", "download", "bell", "image",
     "music", "game",
 }
+
+
+def _rgb(value: object, key: str) -> tuple[int, int, int]:
+    if isinstance(value, str) and re.fullmatch(r"#(?:[0-9a-fA-F]{3}){1,2}", value):
+        digits = value[1:] if len(value) == 7 else "".join(c * 2 for c in value[1:])
+        return tuple(int(digits[i:i + 2], 16) for i in (0, 2, 4))
+    raise PageError(f"palette color {key} must be #rgb or #rrggbb, got {value!r}")
+
+
+def _hex(rgb: tuple[int, int, int]) -> str:
+    return "#" + "".join(f"{v:02x}" for v in rgb)
+
+
+def _mix(a: tuple[int, int, int], b: tuple[int, int, int], p: float) -> str:
+    """color-mix(in srgb, a p, b) as a #rrggbb value."""
+    return _hex(tuple(int(x * p + y * (1 - p) + 0.5) for x, y in zip(a, b)))
+
+
 # Appended to styles.css only when a page has flows. Signal and accent-2 are
 # too light to be small text on paper, so accent text and info are mixed
 # toward ink until they clear 4.5:1. The bright signal stays --fd-accent
-# for the rails, halo, and pulse.
-FLOW_MAP = """
-.fd {
-  --fd-surface: var(--paper-strong);
-  --fd-edge: var(--line);
-  --fd-text: var(--ink);
-  --fd-faint: var(--ink-faint);
-  --fd-accent: var(--signal);
-  --fd-accent-ink: color-mix(in srgb, var(--signal) 60%, var(--ink));
-  --fd-warn: var(--kicker);
-  --fd-info: color-mix(in srgb, var(--accent-2) 40%, var(--ink));
+# for the rails, halo, and pulse. The mixes are worked out here and written
+# as plain colors, because flow.css mixes these tones again and WebKit 26.5
+# crashes on a color-mix() whose two colors are both color-mix() values.
+def flow_map(pal: dict) -> str:
+    ink, paper, accent2, signal, kicker = (
+        _rgb(pal.get(k), k) for k in ("ink", "paper", "accent2", "signal", "kicker")
+    )
+    return f"""
+.fd {{
+  --fd-surface: {_mix(paper, (255, 255, 255), 0.35)};
+  --fd-edge: rgb({ink[0]} {ink[1]} {ink[2]} / 0.14);
+  --fd-text: {_hex(ink)};
+  --fd-faint: {_mix(ink, paper, 0.52)};
+  --fd-accent: {_hex(signal)};
+  --fd-accent-ink: {_mix(signal, ink, 0.6)};
+  --fd-warn: {_hex(kicker)};
+  --fd-info: {_mix(accent2, ink, 0.4)};
   --fd-font: inherit;
   --fd-mono: var(--mono);
-}
+}}
 """
 
 BANNED_DASHES = {"\u2014": "em-dash", "\u2015": "horizontal bar", "\u2013": "en-dash"}
@@ -1064,7 +1088,7 @@ def main(argv: list[str]) -> int:
     ) + "}\n\n"
     css = theme + (KIT / "base.css").read_text(encoding="utf-8")
     if page.get("flows"):
-        css += FLOW_MAP
+        css += flow_map(pal)
     (site / "styles.css").write_text(css, encoding="utf-8")
     shutil.copyfile(KIT / "lang.js", site / "lang.js")
     shutil.copyfile(KIT / "app.js", site / "app.js")
