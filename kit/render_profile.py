@@ -170,14 +170,14 @@ def directory(hub: dict) -> str:
             head = ['<a id="english"></a>', "",
                     '<p align="right"><a href="../README.md">Ted Huang</a> / <strong>Projects</strong> · '
                     '<a href="#traditional-chinese">繁體中文</a></p>', "", "# Projects", "",
-                    f"Each of these {count} repositories has its own bilingual page on GitHub Pages. "
+                    f"Each of these {count} repositories has its own bilingual page. "
                     f"The full directory lives at **[teddashh.github.io]({t['hub']})**.",
                     "", "| Project | What it is | Status |", "|---|---|---|"]
         else:
             head = ['<a id="traditional-chinese"></a>', "",
                     '<p align="right"><a href="../README.zh-TW.md">Ted Huang</a> / <strong>專案</strong> · '
                     '<a href="#english">English</a></p>', "", "# 專案", "",
-                    f"這 {count} 個 repository 在 GitHub Pages 上都有自己的中英雙語介紹頁。"
+                    f"這 {count} 個 repository 都有自己的中英雙語介紹頁。"
                     f"完整目錄在 **[teddashh.github.io]({t['hub']})**。",
                     "", "| 專案 | 內容 | 狀態 |", "|---|---|---|"]
         rows = []

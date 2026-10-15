@@ -160,11 +160,11 @@
       "kicker": {"en": "03 · Security and IT", "zh": "03 · 資安與 IT"},
       "title": {"en": "Twenty years of IT, turned into tools.", "zh": "二十年 IT 經驗，做成工具。"},
       "intro": {
-        "en": "Security checks, machine control, and awareness training that come from running real company systems.",
-        "zh": "從實際維運公司系統累積出來的資安檢查、機器管控與資安意識教材。"
+        "en": "Security checks, machine control, AI governance, and awareness training that come from running real company systems.",
+        "zh": "從實際維運公司系統累積出來的資安檢查、機器管控、AI 治理與資安意識教材。"
       },
       "title_short": {"en": "Security and IT", "zh": "資安與 IT"},
-      "summary": {"en": "Scanner, control plane, training", "zh": "掃描、控制平面、教材"},
+      "summary": {"en": "Scanner, control plane, AI governance, training", "zh": "掃描、控制平面、AI 治理、教材"},
       "projects": [
         {
           "slug": "ai-security-scanner", "repo": "TED-H-com/ai-security-scanner", "name": "ai-security-scanner", "mark": "SS", "palette": "graphite", "status": "active", "release": "latest",
@@ -181,6 +181,18 @@
             "zh": "以證據為本的控制平面，管理執行 AI agent 與 coding 工具的 Linux 機器。"
           },
           "stack": "Go · Linux"
+        },
+        {
+          "slug": "Control-AI-Chat", "repo": "TED-H-com/Control-AI-Chat", "name": "Control AI Chat", "mark": "CA", "palette": "blue", "status": "early",
+          "line": {
+            "en": "Self-hosted AI chat for companies, using their own model credentials. A gate checks every prompt and every reply, with spend budgets and a hash-chained audit log.",
+            "zh": "給公司自架的 AI 聊天系統，使用自己的模型憑證。每個提示詞和每個回覆都會經過閘道檢查，並有費用預算與雜湊鏈稽核紀錄。"
+          },
+          "stack": "TypeScript · Hono · React · SQLite · Docker",
+          "page": {
+            "en": "https://github.com/TED-H-com/Control-AI-Chat#readme",
+            "zh": "https://github.com/TED-H-com/Control-AI-Chat/blob/main/README.zh-TW.md"
+          }
         },
         {
           "slug": "idn-homograph-example",

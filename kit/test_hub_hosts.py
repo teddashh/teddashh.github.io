@@ -44,5 +44,16 @@ class HostTests(unittest.TestCase):
         finally:
             H.SITE_ROOT = previous
 
+    def test_explicit_page_not_redirected(self):
+        previous = H.SITE_ROOT
+        try:
+            H.SITE_ROOT = 'https://teddashh.github.io'
+            project = {'slug': 'example', 'name': 'Example', 'repo': 'TED-H-com/example'}
+            self.assertIn('example', H.moved_pages({'groups': [{'projects': [project]}]}))
+            project['page'] = 'https://github.com/TED-H-com/example#readme'
+            self.assertEqual(H.moved_pages({'groups': [{'projects': [project]}]}), {})
+        finally:
+            H.SITE_ROOT = previous
+
 if __name__ == '__main__':
     unittest.main()

@@ -125,6 +125,8 @@ def moved_pages(hub: dict) -> dict:
     moved = {}
     for group in hub["groups"]:
         for project in group["projects"]:
+            if "page" in project:  # its page is not on GitHub Pages, so there is nothing to forward to
+                continue
             root = R.site_root_for(project)
             if root != SITE_ROOT:
                 moved[project["slug"]] = (project["name"], root)
