@@ -15,7 +15,7 @@
     "kit/lang.js": "a3ac695065e7c7f8dee969abbcaf170313581e02eeab3457e658975f90c03147",
     "kit/render.py": "ee93183ab3fec4d2ef9f1e8353c9a114a9143f277e7b6e098db6ccc991b9d206",
     "kit/render_hub.py": "81720044078f150585a807ed7e27f4a8a022be36d03600b4adcab22f438ce3c1",
-    "kit/render_profile.py": "1e25dc55254364c2111b2a3a39743fe907159b749644e6e5f209bfbe5e229187",
+    "kit/render_profile.py": "adcc810a4c691882ebb8bf4581cf460598dc12c9bcb3bce13234ceae3bbfe44e",
     "kit/shoot.py": "3feabc599812a63635f285b9c98fc12ffd987503a7a740ae766a197609a4f70b",
     "kit/test_hub_hosts.py": "afe6ed308471d30482d9a6a82fd3a8669653fa07d9b0290f36a5f87017aec801",
     "kit/test_render_profile.py": "ae774174b7b4388cc487f46cf9237925dae065f1babf9614db61f78c08b43262",
@@ -70,6 +70,6 @@
     "site/tiles/zhan-dou-tuo-luo.svg": "463d5dbdda302faad3a310259e30efc0cc414477a4b8c1de411a79f5e80b513e",
     "site/zhan-dou-tuo-luo/index.html": "1a3aacb2581d8e48510f2d3a56d1af19fc9687ecef5ce4e49428f76af49c0453"
   },
-  "sha": "19f9f90fe99e478fb98d38dfd7994e119e900c67",
+  "sha": "eef31784a4d645d341d520a234d6c54fae163059",
   "source": "TED-H-com/ted-h-com.github.io"
 }

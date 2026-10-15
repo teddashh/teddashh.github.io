@@ -31,7 +31,7 @@ import render_hub as H  # noqa: E402
 
 START = "<!-- projects:start -->"
 END = "<!-- projects:end -->"
-NOTE = "<!-- Generated from hub.json in teddashh/teddashh.github.io by kit/render_profile.py. -->"
+NOTE = "<!-- Generated from hub.json in TED-H-com/ted-h-com.github.io by kit/render_profile.py. -->"
 GH = "https://github.com"
 BADGE = "style=flat-square&amp;labelColor=0A2342&amp;color=0969DA"
 
