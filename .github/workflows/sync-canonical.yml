@@ -1,0 +1,53 @@
+name: Sync and deploy canonical public hub
+on:
+  schedule:
+    - cron: '4/5 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  sync:
+    if: github.repository == 'teddashh/teddashh.github.io'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Check public canonical SHA and sync inputs
+        id: sync
+        run: python3 .github/scripts/sync_public_source.py hub
+      - name: Render and validate the personal host
+        if: steps.sync.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          python3 kit/test_hub_hosts.py
+          node --test kit/flow.test.js
+          python3 kit/render_hub.py --site-owner teddashh
+          python3 .github/scripts/sync_public_source.py hub --finalize
+      - name: Configure GitHub Pages
+        if: steps.sync.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+      - name: Upload personal site
+        if: steps.sync.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: ./site
+      - name: Deploy personal site
+        if: steps.sync.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1
+      - name: Record successful sync in this repository only
+        if: steps.sync.outputs.changed == 'true' || github.event_name == 'workflow_dispatch'
+        run: |
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          sha=$(python3 -c 'import json; print(json.load(open(".github/sync-state.json"))["sha"])')
+          git commit -m "Sync public hub from TED-H-com/ted-h-com.github.io@$sha"
+          git push origin HEAD:main
