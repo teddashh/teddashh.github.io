@@ -125,9 +125,13 @@ def moved_pages(hub: dict) -> dict:
     moved = {}
     for group in hub["groups"]:
         for project in group["projects"]:
-            if "page" in project:  # its page is not on GitHub Pages, so there is nothing to forward to
-                continue
             root = R.site_root_for(project)
+            if "page" in project:
+                # A custom language route can still live on the project's Pages
+                # site. Keep its legacy redirect; skip external README pages.
+                prefix = f"{root}/{project['slug']}/"
+                if not all(url.startswith(prefix) for url in project_pages(project).values()):
+                    continue
             if root != SITE_ROOT:
                 moved[project["slug"]] = (project["name"], root)
     for repo in hub.get("moved", []):
@@ -501,4 +505,3 @@ if __name__ == "__main__":
     except R.PageError as exc:
         print(f"error: {exc}")
         sys.exit(1)
-

@@ -52,6 +52,9 @@ class HostTests(unittest.TestCase):
             self.assertIn('example', H.moved_pages({'groups': [{'projects': [project]}]}))
             project['page'] = 'https://github.com/TED-H-com/example#readme'
             self.assertEqual(H.moved_pages({'groups': [{'projects': [project]}]}), {})
+            project['page'] = {'en': 'https://ted-h-com.github.io/example/en/',
+                               'zh': 'https://ted-h-com.github.io/example/'}
+            self.assertIn('example', H.moved_pages({'groups': [{'projects': [project]}]}))
         finally:
             H.SITE_ROOT = previous
 
