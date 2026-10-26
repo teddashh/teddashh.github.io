@@ -11,6 +11,7 @@ The directory of Ted Huang's 23 original public projects, with current scope, st
 - `hub.json`: the shared project list, grouped descriptions, status and language-specific links. Edit it, then run `python3 kit/render_hub.py .`.
 - `site/`: the generated directory, project tiles and redirects, deployed by `.github/workflows/pages.yml`. The workflow renders URLs for the current host.
 - `kit/`: the shared bilingual page generator. See [kit/README.md](kit/README.md).
+- `docs/`: site architecture and content guidelines. See [docs/README.md](docs/README.md).
 - The project list on the [GitHub profile](https://github.com/teddashh) comes from the same `hub.json`, through `python3 kit/render_profile.py <profile-repo>`.
 
 ## How project pages work

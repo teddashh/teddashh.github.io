@@ -1,7 +1,7 @@
 {
   "files": {
     "LICENSE": "ddd96a10df7e5ede86d09fae10969a9d92581d069de367f076ff110643ff97fa",
-    "README.md": "50fcd17a09d9dced8c41f470402857f361f0b14f18a9a00b603daf781758f61c",
+    "README.md": "46ee0bc7c842c0931e0dc9e4d53b26c978d70ad24a33b7d01a57aba0562d3162",
     "README.zh-TW.md": "85e47a48472d77eb81f6e101d39a0c383646e57135e43166d97ffbced635ed98",
     "hub.json": "cd584400c3da726deafb6a476304edd45de70f41edd8d51143a18dfb418f866d",
     "kit/README.md": "74e6adbc39e152218a084f80b8d08100ea69a7aa8938e81e976f9c280742167e",
@@ -80,6 +80,6 @@
     "site/tiles/zhan-dou-tuo-luo.svg": "463d5dbdda302faad3a310259e30efc0cc414477a4b8c1de411a79f5e80b513e",
     "site/zhan-dou-tuo-luo/index.html": "1a3aacb2581d8e48510f2d3a56d1af19fc9687ecef5ce4e49428f76af49c0453"
   },
-  "sha": "b8a1b3cec33182f012f6c7d26b21fceb7bd419f9",
+  "sha": "16507f3f62854fdfc8c35292f4ace690a12c7ab4",
   "source": "TED-H-com/ted-h-com.github.io"
 }
